@@ -9,9 +9,14 @@ import (
 	"path/filepath"
 
 	"github.com/bijay11/go-course/pkg/config"
+	"github.com/bijay11/go-course/pkg/models"
 )
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 	if app.UseCache {
 
@@ -30,7 +35,9 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	td = AddDefaultData(td)
+
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 
