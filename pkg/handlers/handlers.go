@@ -3,9 +3,9 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/bijay11/go-course/pkg/config"
-	"github.com/bijay11/go-course/pkg/models"
-	"github.com/bijay11/go-course/pkg/render"
+	"github.com/bijay11/bookings/pkg/config"
+	"github.com/bijay11/bookings/pkg/models"
+	"github.com/bijay11/bookings/pkg/render"
 )
 
 // repository used by the handlers

@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/bijay11/go-course/pkg/config"
-	"github.com/bijay11/go-course/pkg/models"
+	"github.com/bijay11/bookings/pkg/config"
+	"github.com/bijay11/bookings/pkg/models"
 )
 
 func AddDefaultData(td *models.TemplateData) *models.TemplateData {
