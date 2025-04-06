@@ -115,12 +115,15 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <p id="myParagraph">This is Some Text</p>
-                <p>
-                    <button id="colorButton" type="button" class="btn btn-outline-secondary">Click Me!</button>
-                </p>
+        <div class='row my-footer'>
+            <div class='col'>
+                Left
+            </div>
+            <div class='col'>
+                Middle
+            </div>
+            <div class='col'>
+                Right
             </div>
         </div>
 
@@ -276,7 +279,7 @@
                 const { value: formValues } = await Swal.fire({
                     title,
                     html: msg,
-                    backrop: false,
+                    backdrop: false,
                     focusConfirm: false,
                     showCancelButton: true,
                     focusConfirm: false,
