@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/bijay11/bookings/pkg/config"
@@ -71,8 +74,30 @@ func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
 
 // renders Availability page
 func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Posted to search availa"))
-	render.RenderTemplate(w, r, "search-availability.page.html", &models.TemplateData{})
+	start := r.Form.Get("start")
+	end := r.Form.Get("end")
+	w.Write([]byte(fmt.Sprintf("start date is %s and end date is %s", start, end)))
+	//render.RenderTemplate(w, r, "search-availability.page.html", &models.TemplateData{})
+}
+
+type jsonResponse struct {
+	OK      bool   `json: "ok"`
+	Message string `json:"message"`
+}
+
+func (m *Repository) AvailabilityJson(w http.ResponseWriter, r *http.Request) {
+	resp := jsonResponse{
+		OK:      true,
+		Message: "Available!",
+	}
+
+	out, err := json.MarshalIndent(resp, "", "	")
+	if err != nil {
+		log.Println(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }
 
 // renders Contact page
