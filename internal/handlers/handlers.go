@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/bijay11/bookings/pkg/config"
-	"github.com/bijay11/bookings/pkg/models"
-	"github.com/bijay11/bookings/pkg/render"
+	"github.com/bijay11/bookings/internal/config"
+	"github.com/bijay11/bookings/internal/models"
+	"github.com/bijay11/bookings/internal/render"
 )
 
 // repository used by the handlers
