@@ -1,7 +1,0 @@
-if table_exists("room_restrictions") {
-    alter_table("room_restrictions") {
-        drop_foreign_key("room_restrictions_restrictions_id_fk")
-        drop_foreign_key("room_restrictions__rooms_id_fk")
-    }
-    drop_table("room_restrictions")
-}
