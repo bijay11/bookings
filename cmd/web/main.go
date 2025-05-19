@@ -10,6 +10,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/bijay11/bookings/internal/config"
+	"github.com/bijay11/bookings/internal/driver"
 	"github.com/bijay11/bookings/internal/handlers"
 	"github.com/bijay11/bookings/internal/helpers"
 	"github.com/bijay11/bookings/internal/models"
@@ -25,7 +26,9 @@ var errorLog *log.Logger
 
 func main() {
 
-	err := run()
+	db, err := run()
+
+	defer db.SQL.Close()
 
 	if err != nil {
 		log.Fatal("cannot start application", err)
@@ -41,7 +44,7 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	gob.Register(models.Reservation{})
 
 	// Change this value to true in production
@@ -61,20 +64,31 @@ func run() error {
 
 	app.Session = session
 
+	// connnect to database
+
+	log.Println("Connecting to the database")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=postgres password=learndb")
+	if err != nil {
+		log.Fatal("cannot connect to database", err)
+		return nil, err
+	}
+
+	log.Println("Connected to database")
+
 	templateCache, err := render.CreateTemplateCache()
 
 	if err != nil {
 		log.Fatal("cannot create template cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = templateCache
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }

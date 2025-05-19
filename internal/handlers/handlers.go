@@ -6,10 +6,13 @@ import (
 	"net/http"
 
 	"github.com/bijay11/bookings/internal/config"
+	"github.com/bijay11/bookings/internal/driver"
 	"github.com/bijay11/bookings/internal/forms"
 	"github.com/bijay11/bookings/internal/helpers"
 	"github.com/bijay11/bookings/internal/models"
 	"github.com/bijay11/bookings/internal/render"
+	"github.com/bijay11/bookings/internal/repository"
+	"github.com/bijay11/bookings/internal/repository/dbrepo"
 )
 
 // repository used by the handlers
@@ -18,12 +21,14 @@ var Repo *Repository
 // Repository type
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 // Creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 
