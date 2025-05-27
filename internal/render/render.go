@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"time"
 
 	"github.com/bijay11/bookings/internal/config"
 	"github.com/bijay11/bookings/internal/models"
@@ -56,12 +57,19 @@ func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *models.Te
 
 }
 
-var functions = template.FuncMap{}
+var functions = template.FuncMap{
+	"formatDate": FormatDate,
+}
 
 var app *config.AppConfig
 
 func NewRenderer(a *config.AppConfig) {
 	app = a
+}
+
+// FormatDate formats a time.Time object to a string in MM/DD/YYYY format.
+func FormatDate(t time.Time) string {
+	return t.Format("01/02/2006") // MM/DD/YYYY
 }
 
 func CreateTemplateCache() (map[string]*template.Template, error) {
