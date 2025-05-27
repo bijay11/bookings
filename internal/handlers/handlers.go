@@ -402,3 +402,16 @@ func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 
 }
+
+// Logout handles the logout process
+// It destroys the session and redirects to the login page
+func (m *Repository) Logout(w http.ResponseWriter, r *http.Request) {
+	m.App.Session.Destroy(r.Context())
+	m.App.Session.RenewToken(r.Context())
+
+	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+}
+
+func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{})
+}
