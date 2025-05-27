@@ -378,6 +378,7 @@ func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
 
 	form := forms.New(r.PostForm)
 	form.Required("email", "password")
+	form.IsEmail("email")
 
 	if !form.Valid() {
 		render.Template(w, r, "login.page.tmpl", &models.TemplateData{
