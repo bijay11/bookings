@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/bijay11/bookings/internal/config"
@@ -445,6 +446,21 @@ func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request
 	render.Template(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{
 		Data: data,
 	})
+}
+
+// AdminShowReservation displays a specific reservation in admin tool
+func (m *Repository) AdminShowReservation(w http.ResponseWriter, r *http.Request) {
+	exploded := strings.Split(r.RequestURI, "/")
+	id, err := strconv.Atoi(exploded[4])
+
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	log.Println(id)
+
+	render.Template(w, r, "admin-reservations-show.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Request) {
