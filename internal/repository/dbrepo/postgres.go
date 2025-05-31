@@ -308,6 +308,7 @@ func (m *postgresDBRepo) AllNewReservations() ([]models.Reservation, error) {
 	return reservations, nil
 }
 
+// GetReservationByID retrieves a reservation by its ID
 func (m *postgresDBRepo) GetReservationByID(id int) (models.Reservation, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
