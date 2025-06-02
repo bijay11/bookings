@@ -7,8 +7,8 @@ Reservation
 {{$res := index .Data "reservation"}}
 {{$src := index .StringMap "src"}}
 <div class="col-md-12">
-  <p><strong>Arrival</strong>: {{formatDate $res.StartDate }}</p>
-  <p><strong>Departure</strong>: {{formatDate $res.EndDate }}</p>
+  <p><strong>Arrival</strong>: {{formatAsMMDDYYYY $res.StartDate }}</p>
+  <p><strong>Departure</strong>: {{formatAsMMDDYYYY $res.EndDate }}</p>
   <p><strong>Room</strong>: {{ $res.Room.Name }}</p>
 
   <form

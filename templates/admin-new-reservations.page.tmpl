@@ -32,8 +32,8 @@ New Reservations
             
             </td>
             <td>{{.Room.Name}}</td>
-            <td>{{formatDate .StartDate}}</td>
-            <td>{{formatDate .EndDate}}</td>
+            <td>{{formatAsMMDDYYYY .StartDate}}</td>
+            <td>{{formatAsMMDDYYYY .EndDate}}</td>
         </tr>
         {{ end }}
         </tbody>

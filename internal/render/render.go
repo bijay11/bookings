@@ -58,18 +58,40 @@ func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *models.Te
 }
 
 var functions = template.FuncMap{
-	"formatDate": FormatDate,
+	"formatAsMMDDYYYY": FormatAsMMDDYYYY,
+	"formatDate":       FormatDate,
+	"iterate":          Iterate,
+	"add":              Add,
 }
 
 var app *config.AppConfig
+
+func Add(a, b int) int {
+	return a + b
+}
+
+// Iterate returns a slice of integers from 0 to count.
+func Iterate(count int) []int {
+	var i int
+	var items []int
+
+	for i = 0; i < count; i++ {
+		items = append(items, i)
+	}
+	return items
+}
 
 func NewRenderer(a *config.AppConfig) {
 	app = a
 }
 
-// FormatDate formats a time.Time object to a string in MM/DD/YYYY format.
-func FormatDate(t time.Time) string {
+// FormatAsMMDDYYYY formats a time.Time object to a string in MM/DD/YYYY format.
+func FormatAsMMDDYYYY(t time.Time) string {
 	return t.Format("01/02/2006") // MM/DD/YYYY
+}
+
+func FormatDate(t time.Time, f string) string {
+	return t.Format(f) // Example format
 }
 
 func CreateTemplateCache() (map[string]*template.Template, error) {
