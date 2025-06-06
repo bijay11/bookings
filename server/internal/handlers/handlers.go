@@ -30,6 +30,11 @@ type Repository struct {
 	DB  repository.DatabaseRepo
 }
 
+type Response struct {
+	Message string `json:"message"`
+	User    string `json:"user"`
+}
+
 // Creates a new repository
 func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
@@ -44,7 +49,18 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "home.page.tmpl", &models.TemplateData{})
+	response := Response{
+		Message: "Hello from the home page",
+		User:    "Guest",
+	}
+	w.Header().Set("Content-Type", "application/json")
+	err := json.NewEncoder(w).Encode(response)
+	if err != nil {
+		m.App.ErrorLog.Println("Error encoding JSON response:", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	// render.Template(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {

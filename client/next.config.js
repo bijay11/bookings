@@ -3,8 +3,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: 'http://localhost:8080/api/:path*', // Proxy to Go backend
+        source: '/:path*',
+        destination: 'http://localhost:8080/:path*', // Proxy to Go backend
       },
     ];
   },
