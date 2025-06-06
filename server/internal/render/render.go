@@ -87,7 +87,7 @@ func NewRenderer(a *config.AppConfig) {
 
 // FormatAsMMDDYYYY formats a time.Time object to a string in MM/DD/YYYY format.
 func FormatAsMMDDYYYY(t time.Time) string {
-	return t.Format("01/02/2006") // MM/DD/YYYY
+	return t.Format("2006-01-02") // MM/DD/YYYY
 }
 
 func FormatDate(t time.Time, f string) string {
