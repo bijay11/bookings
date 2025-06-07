@@ -1,5 +1,5 @@
 export default async function Page() {
-  const res = await fetch('http://localhost:8080/');
+  const res = await fetch(`${process.env.API_BASE_URL}`);
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
