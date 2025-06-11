@@ -452,7 +452,7 @@ func (m *postgresDBRepo) GetRestrictionsForRoomByDate(roomId int, start, end tim
 	}
 	defer rows.Close()
 
-	if rows.Next() {
+	for rows.Next() {
 
 		var r models.RoomRestriction
 		err := rows.Scan(
@@ -505,8 +505,8 @@ func (m *postgresDBRepo) InsertBlockForRoom(id int, startDate time.Time) error {
 	return nil
 }
 
-// DeleteBlockById deletes a room restriction for a specific room and date
-func (m *postgresDBRepo) DeleteBlockById(id int) error {
+// DeleteBlockByID deletes a room restriction for a specific room and date
+func (m *postgresDBRepo) DeleteBlockByID(id int) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 

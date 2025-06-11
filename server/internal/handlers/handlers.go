@@ -549,7 +549,7 @@ func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Re
 		reservationMap := make(map[string]int)
 		blockMap := make(map[string]int)
 
-		for d := firstOfMonth; d.After(lastOfMonth) == false; d = d.AddDate(0, 0, 1) {
+		for d := firstOfMonth; !d.After(lastOfMonth); d = d.AddDate(0, 0, 1) {
 			reservationMap[d.Format("2006-01-02")] = 0
 			blockMap[d.Format("2006-01-02")] = 0
 		}
@@ -617,7 +617,7 @@ func (m *Repository) AdminPostReservationsCalendar(w http.ResponseWriter, r *htt
 				// only pay attention to values > 0
 				if val > 0 {
 					if !form.Has(fmt.Sprintf("remove_block_%d_%s", room.ID, name), r) {
-						err := m.DB.DeleteBlockById(value)
+						err := m.DB.DeleteBlockByID(value)
 
 						if err != nil {
 							log.Println(err)
