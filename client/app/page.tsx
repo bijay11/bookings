@@ -6,7 +6,7 @@ export default async function Page() {
   const data = await res.json();
   return (
     <>
-      <h1>{data.user}</h1>
+      <h1 className="text-3xl font-bold underline">{data.user}</h1>
       <p>{data.message}</p>
     </>
   );
