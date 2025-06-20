@@ -1,14 +1,137 @@
 [
   {
     "listing_id": "house-001",
-    "content": "This place was clean and cozy, but we saw a few bugs in the kitchen."
+    "content": [
+      {
+        "reviewer_id": "user-101",
+        "content": "The place was clean, but I saw a few bugs crawling in the kitchen."
+      },
+      {
+        "reviewer_id": "user-102",
+        "content": "Cozy stay overall, but we had to kill a couple of roaches."
+      },
+      {
+        "reviewer_id": "user-103",
+        "content": "Nice host, but ants in the bathroom were annoying."
+      },
+      {
+        "reviewer_id": "user-104",
+        "content": "Would not stay again due to bedbugs."
+      },
+      {
+        "reviewer_id": "user-105",
+        "content": "Found a spider in the closet. Not terrible, but not ideal."
+      },
+      {
+        "reviewer_id": "user-106",
+        "content": "Lots of mosquitoes in the room. Bring bug spray."
+      },
+      {
+        "reviewer_id": "user-107",
+        "content": "Everything was fine except for a few cockroaches in the hallway."
+      },
+      {
+        "reviewer_id": "user-108",
+        "content": "Bugs aside, the kitchen was functional."
+      },
+      {
+        "reviewer_id": "user-109",
+        "content": "Woke up with bug bites. Definitely an issue."
+      },
+      {
+        "reviewer_id": "user-110",
+        "content": "Cleanliness was okay, but there were pest problems."
+      }
+    ]
   },
   {
     "listing_id": "house-002",
-    "content": "Great stay! No bugs, everything was perfect."
+    "content": [
+      {
+        "reviewer_id": "user-201",
+        "content": "Spotless! I didn't see a single insect."
+      },
+      {
+        "reviewer_id": "user-202",
+        "content": "Perfect stay, would return. Very clean."
+      },
+      {
+        "reviewer_id": "user-203",
+        "content": "Impeccable hygiene, absolutely no pests."
+      },
+      {
+        "reviewer_id": "user-204",
+        "content": "Great location and very well-maintained."
+      },
+      {
+        "reviewer_id": "user-205",
+        "content": "Everything was perfect — no signs of bugs."
+      },
+      {
+        "reviewer_id": "user-206",
+        "content": "Super clean Airbnb. 10/10 for hygiene."
+      },
+      {
+        "reviewer_id": "user-207",
+        "content": "Loved the stay. No bug issues at all."
+      },
+      {
+        "reviewer_id": "user-208",
+        "content": "Stayed for 4 nights, not even a spider."
+      },
+      {
+        "reviewer_id": "user-209",
+        "content": "Clean bathrooms, clean sheets. No complaints."
+      },
+      {
+        "reviewer_id": "user-210",
+        "content": "Exactly as described, and no pests."
+      }
+    ]
   },
   {
     "listing_id": "house-003",
-    "content": "Nice location, but some ants near the bathroom."
+    "content": [
+      {
+        "reviewer_id": "user-301",
+        "content": "Nice location, but ants near the bathroom."
+      },
+      {
+        "reviewer_id": "user-302",
+        "content": "Saw a cockroach in the living room."
+      },
+      {
+        "reviewer_id": "user-303",
+        "content": "Good value, but found a few bugs on the floor."
+      },
+      {
+        "reviewer_id": "user-304",
+        "content": "Ants everywhere in the kitchen drawers."
+      },
+      {
+        "reviewer_id": "user-305",
+        "content": "Not very clean — insect issues."
+      },
+      {
+        "reviewer_id": "user-306",
+        "content": "Cute place, but needs pest control."
+      },
+      {
+        "reviewer_id": "user-307",
+        "content": "Several mosquitoes, but that’s expected here."
+      },
+      {
+        "reviewer_id": "user-308",
+        "content": "Creepy crawlies in the bathroom."
+      },
+      {
+        "reviewer_id": "user-309",
+        "content": "Insects on the walls, especially at night."
+      },
+      {
+        "reviewer_id": "user-310",
+        "content": "Unfortunately not as clean as promised."
+      }
+    ]
   }
 ]
