@@ -35,6 +35,39 @@ type Response struct {
 	User    string `json:"user"`
 }
 
+type jsonResponse struct {
+	OK        bool   `json:"ok"`
+	Message   string `json:"message"`
+	RoomID    string `json:"room_id"`
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
+}
+
+type ReviewSummary struct {
+	AverageRating float64 `json:"average_rating"`
+	TotalReviews  int     `json:"total_reviews"`
+}
+
+type Listing struct {
+	ID            int           `json:"id"`
+	Title         string        `json:"title"`
+	City          string        `json:"city"`
+	State         string        `json:"state"`
+	ImageURL      string        `json:"image_url"`
+	PricePerNight float64       `json:"price_per_night"`
+	ReviewSummary ReviewSummary `json:"review_summary"`
+}
+
+type ListingsResponse struct {
+	Data []Listing `json:"data"`
+}
+
+type Review struct {
+	Reviewer string `json:"reviewer"`
+	Comment  string `json:"comment"`
+	Rating   int    `json:"rating"`
+}
+
 // Creates a new repository
 func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
@@ -258,14 +291,6 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 
 }
 
-type jsonResponse struct {
-	OK        bool   `json:"ok"`
-	Message   string `json:"message"`
-	RoomID    string `json:"room_id"`
-	StartDate string `json:"start_date"`
-	EndDate   string `json:"end_date"`
-}
-
 func (m *Repository) AvailabilityJson(w http.ResponseWriter, r *http.Request) {
 
 	sd := r.Form.Get("start")
@@ -429,6 +454,38 @@ func (m *Repository) Logout(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 }
 
+// Get Listings
+func (m *Repository) GetListings(w http.ResponseWriter, r *http.Request) {
+	// listings := []Listing{
+	// 	MockListings
+	// }
+
+	response := ListingsResponse{
+		Data: MockListings,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(response)
+}
+
+// GetListingReviews fetches reviews for a specific listing
+func (m *Repository) GetListingReviews(w http.ResponseWriter, r *http.Request) {
+	// Extract listing ID from the URL
+	vars := chi.URLParam(r, "id")
+	// You can parse and use the ID as needed
+	fmt.Printf("Fetching reviews for listing ID: %s\n", vars)
+
+	reviews := []Review{
+		{"Alice", "Great stay! Beautiful views.", 5},
+		{"Bob", "Nice place but a bit noisy.", 4},
+	}
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(reviews)
+}
+
+// Admin Related Handlers
+//
+// AdminDashboard displays the admin dashboard
 func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{})
 }

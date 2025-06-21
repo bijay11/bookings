@@ -52,6 +52,18 @@ const getAvailableHomes = async (): Promise<Home[]> => {
 export default async function Page() {
   const homes = await getAvailableHomes();
 
+  const listingRes = await fetch(`${process.env.API_BASE_URL}/listings`, {
+    cache: 'no-store',
+  });
+  const { data } = await listingRes.json();
+  console.log('===test listing:', data);
+
+  // const reviewRes = await fetch(
+  //   `${process.env.API_BASE_URL}/listings/${listing.id}/reviews`,
+  //   { cache: 'no-store' }
+  // );
+  // const reviews = await reviewRes.json();
+
   return (
     <div className="container mx-auto p-4">
       <SearchBar />
