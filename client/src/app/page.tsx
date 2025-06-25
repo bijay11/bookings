@@ -2,7 +2,7 @@ import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
 
 export default async function Page() {
-  const listingRes = await fetch(`${process.env.API_BASE_URL}/listings`, {
+  const listingRes = await fetch(`${process.env.API_BASE_URL}/api/listings`, {
     cache: 'no-store',
   });
   const { data } = await listingRes.json();
@@ -19,7 +19,7 @@ export default async function Page() {
           return (
             <Link
               key={listing.id}
-              href={`/listing/${listing.id}`}
+              href={`/listings/${listing.id}`}
               className="group rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition duration-200 border border-gray-100"
             >
               <div

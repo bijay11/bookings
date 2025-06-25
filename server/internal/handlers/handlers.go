@@ -80,7 +80,7 @@ type ListingDetails struct {
 }
 
 type ListingDetailsResponse struct {
-	Data []ListingDetails `json:"data"`
+	Data ListingDetails `json:"data"`
 }
 
 type Review struct {
@@ -501,8 +501,8 @@ func (m *Repository) GetListings(w http.ResponseWriter, r *http.Request) {
 // Get Listing Details
 func (m *Repository) GetListingDetails(w http.ResponseWriter, r *http.Request) {
 
-	response := ListingsResponse{
-		Data: MockListings,
+	response := ListingDetailsResponse{
+		Data: MockListingDetails,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

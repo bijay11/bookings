@@ -1,10 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        port: '',
+        pathname: '/**', // allow all paths
+      },
+    ],
+  },
   async rewrites() {
     return [
       {
-        source: '/:path*',
-        destination: 'http://localhost:8080/:path*', // Proxy to Go backend
+        source: '/api/:path*', // ✅ only rewrite API paths
+        destination: 'http://localhost:8080/api/:path*',
       },
     ];
   },

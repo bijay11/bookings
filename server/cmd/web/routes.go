@@ -23,9 +23,12 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/generals-quarters", handlers.Repo.Generals)
 	mux.Get("/majors-suite", handlers.Repo.Majors)
 
-	mux.Get("/listings", handlers.Repo.GetListings)
-	mux.Get("/listings/{id}", handlers.Repo.GetListingDetails)
-	mux.Get("/listings/{id}/reviews", handlers.Repo.GetListingReviews)
+	// API grouping
+	mux.Route("/api", func(r chi.Router) {
+		r.Get("/listings/{id}/reviews", handlers.Repo.GetListingReviews)
+		r.Get("/listings/{id}", handlers.Repo.GetListingDetails)
+		r.Get("/listings", handlers.Repo.GetListings)
+	})
 
 	mux.Get("/search-availability", handlers.Repo.Availability)
 	mux.Post("/search-availability", handlers.Repo.PostAvailability)

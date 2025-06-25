@@ -93,23 +93,21 @@ var MockListings = []Listing{
 	},
 }
 
-var MockListingDetails = []ListingDetails{
-	{
-		ID:            1,
-		Title:         "Modern Loft in San Francisco",
-		City:          "San Francisco",
-		State:         "CA",
-		PricePerNight: 210,
-		Description:   "Spacious loft with beautiful views...",
-		Images: []string{
-			"https://example.com/loft1.jpg",
-			"https://example.com/loft2.jpg",
-			"https://example.com/loft3.jpg",
-		},
-		Amenities: []string{"WiFi", "Kitchen", "Washer", "Heating"},
-		Host: Host{
-			Name:      "Jane Doe",
-			AvatarURL: "https://example.com/avatar.jpg",
-		},
+var MockListingDetails = ListingDetails{
+	ID:            1,
+	Title:         "Modern Loft in San Francisco",
+	City:          "San Francisco",
+	State:         "CA",
+	PricePerNight: 210,
+	Description:   "Spacious loft with beautiful views...",
+	Images: []string{
+		"https://picsum.photos/800/600?random=1",
+		"https://picsum.photos/800/600?random=1",
+		"https://picsum.photos/800/600?random=1",
+	},
+	Amenities: []string{"WiFi", "Kitchen", "Washer", "Heating"},
+	Host: Host{
+		Name:      "Jane Doe",
+		AvatarURL: "https://picsum.photos/800/600?random=1",
 	},
 }
