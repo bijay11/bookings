@@ -102,12 +102,12 @@ var MockListingDetails = ListingDetails{
 	Description:   "Spacious loft with beautiful views...",
 	Images: []string{
 		"https://picsum.photos/800/600?random=1",
-		"https://picsum.photos/800/600?random=1",
-		"https://picsum.photos/800/600?random=1",
+		"https://picsum.photos/800/600?random=2",
+		"https://picsum.photos/800/600?random=3",
 	},
 	Amenities: []string{"WiFi", "Kitchen", "Washer", "Heating"},
 	Host: Host{
 		Name:      "Jane Doe",
-		AvatarURL: "https://picsum.photos/800/600?random=1",
+		AvatarURL: "https://picsum.photos/800/600?random=4",
 	},
 }
