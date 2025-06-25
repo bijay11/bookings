@@ -62,10 +62,40 @@ type ListingsResponse struct {
 	Data []Listing `json:"data"`
 }
 
+type Host struct {
+	Name      string `json:"name"`
+	AvatarURL string `json:"avatar_url"`
+}
+
+type ListingDetails struct {
+	ID            int      `json:"id"`
+	Title         string   `json:"title"`
+	City          string   `json:"city"`
+	State         string   `json:"state"`
+	PricePerNight float64  `json:"price_per_night"`
+	Description   string   `json:"description"`
+	Images        []string `json:"images"`
+	Amenities     []string `json:"amenities"`
+	Host          Host     `json:"host"`
+}
+
+type ListingDetailsResponse struct {
+	Data []ListingDetails `json:"data"`
+}
+
 type Review struct {
 	Reviewer string `json:"reviewer"`
 	Comment  string `json:"comment"`
 	Rating   int    `json:"rating"`
+	Date     string `json:"date"`
+}
+
+// ReviewResponse is the API response for listing reviews
+type ReviewResponse struct {
+	ListingID     int      `json:"listing_id"`
+	AverageRating float64  `json:"average_rating"`
+	TotalReviews  int      `json:"total_reviews"`
+	Reviews       []Review `json:"reviews"`
 }
 
 // Creates a new repository
@@ -468,19 +498,54 @@ func (m *Repository) GetListings(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(response)
 }
 
+// Get Listing Details
+func (m *Repository) GetListingDetails(w http.ResponseWriter, r *http.Request) {
+
+	response := ListingsResponse{
+		Data: MockListings,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(response)
+}
+
 // GetListingReviews fetches reviews for a specific listing
 func (m *Repository) GetListingReviews(w http.ResponseWriter, r *http.Request) {
 	// Extract listing ID from the URL
-	vars := chi.URLParam(r, "id")
-	// You can parse and use the ID as needed
-	fmt.Printf("Fetching reviews for listing ID: %s\n", vars)
-
-	reviews := []Review{
-		{"Alice", "Great stay! Beautiful views.", 5},
-		{"Bob", "Nice place but a bit noisy.", 4},
+	idParam := chi.URLParam(r, "id")
+	listingID, err := strconv.Atoi(idParam)
+	if err != nil {
+		http.Error(w, "Invalid listing ID", http.StatusBadRequest)
+		return
 	}
+
+	fmt.Printf("Fetching reviews for listing ID: %d\n", listingID)
+
+	// Sample data (replace with real DB query)
+	reviews := []Review{
+		{Reviewer: "Alice", Comment: "Great stay! Beautiful views.", Rating: 5, Date: "2024-12-01"},
+		{Reviewer: "Bob", Comment: "Nice place but a bit noisy.", Rating: 4, Date: "2024-11-15"},
+	}
+
+	// Calculate average rating
+	var totalRating float64
+	for _, review := range reviews {
+		totalRating += float64(review.Rating)
+	}
+	avgRating := 0.0
+	if len(reviews) > 0 {
+		avgRating = totalRating / float64(len(reviews))
+	}
+
+	response := ReviewResponse{
+		ListingID:     listingID,
+		AverageRating: avgRating,
+		TotalReviews:  len(reviews),
+		Reviews:       reviews,
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(reviews)
+	_ = json.NewEncoder(w).Encode(response)
 }
 
 // Admin Related Handlers
