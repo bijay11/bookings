@@ -1,4 +1,3 @@
-// components/ReviewsModal.tsx
 'use client';
 
 import { Dialog } from '@headlessui/react';
@@ -8,9 +7,12 @@ import StarIcon from './StarIcon';
 
 interface Review {
   reviewer: string;
-  comment: string;
+  avatar_url: string;
+  location: string; // Combined location
+  trip_type: string;
   rating: number;
   date: string;
+  comment: string;
 }
 
 interface ReviewsModalProps {
@@ -59,9 +61,13 @@ export default function ReviewsModal({
         onClose={() => setIsOpen(false)}
         className="relative z-50"
       >
+        {/* Overlay */}
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+
+        {/* Modal panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <div className="w-full max-w-2xl max-h-[80vh] overflow-y-auto bg-white rounded-xl p-6">
+          <Dialog.Panel className="w-full max-w-2xl max-h-[80vh] overflow-y-auto bg-white rounded-xl p-6 relative">
+            {/* Header */}
             <div className="flex justify-between items-center mb-6">
               <Dialog.Title className="text-2xl font-bold">
                 Reviews
@@ -74,6 +80,7 @@ export default function ReviewsModal({
               </button>
             </div>
 
+            {/* Loading */}
             {isLoading ? (
               <div className="flex justify-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
@@ -83,34 +90,55 @@ export default function ReviewsModal({
                 {reviews.map((review, idx) => (
                   <div
                     key={idx}
-                    className="p-6 bg-white rounded-lg border border-gray-200 shadow-sm"
+                    className="p-5 bg-white rounded-lg border border-gray-200 shadow-sm"
                   >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <span className="font-semibold text-gray-900">
-                          {review.reviewer}
-                        </span>
-                        <p className="text-sm text-gray-500">
-                          {new Date(review.date).toLocaleDateString(undefined, {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}
+                    <div className="flex items-start gap-4">
+                      <img
+                        src={review.avatar_url || '/default-avatar.jpg'}
+                        alt={review.reviewer}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="font-semibold text-gray-800">
+                              {review.reviewer}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {review.location}
+                            </p>
+                          </div>
+                          <span className="flex items-center px-2 py-1 bg-gray-100 rounded-full">
+                            <StarIcon className="w-4 h-4 text-yellow-500" />
+                            <span className="ml-1 text-sm font-medium">
+                              {review.rating.toFixed(1)}
+                            </span>
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
+                          <span>{review.trip_type}</span>
+                          <span>·</span>
+                          <span>
+                            {new Date(review.date).toLocaleDateString(
+                              undefined,
+                              {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                              }
+                            )}
+                          </span>
+                        </div>
+                        <p className="mt-3 text-gray-700 leading-relaxed">
+                          {review.comment}
                         </p>
                       </div>
-                      <span className="flex items-center px-2 py-1 bg-gray-100 rounded-full">
-                        <StarIcon className="w-4 h-4 text-yellow-500" />
-                        <span className="ml-1 text-sm font-medium">
-                          {review.rating}
-                        </span>
-                      </span>
                     </div>
-                    <p className="text-gray-600">{review.comment}</p>
                   </div>
                 ))}
               </div>
             )}
-          </div>
+          </Dialog.Panel>
         </div>
       </Dialog>
     </>
