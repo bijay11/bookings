@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import StarIcon from '@/components/StarIcon';
 import ProductImageCarousel from '@/components/ProductImageCarousel';
 import ReviewsModal from '@/components/ReviewsModal';
 import DateRangePicker from '@/components/DateRangerPicker';
+import BookingWidget from '@/components/BookingWidget';
 
 interface Listing {
   id: number;
@@ -231,6 +231,10 @@ export default async function ListingPage({
                   className="mb-6"
                   startDate={new Date('2025-03-27')}
                   endDate={new Date('2025-03-27')}
+                />
+                <BookingWidget
+                  pricePerNight={pricing.price_per_night}
+                  initialAdults={2}
                 />
               </div>
               <button className="w-full bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out">
