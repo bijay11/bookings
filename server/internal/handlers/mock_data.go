@@ -120,3 +120,69 @@ var MockListingDetails = ListingDetails{
 		TotalReviews:  52,
 	},
 }
+
+var MockListingReviews = map[int][]Review{
+	1: {
+		{Reviewer: "Alice", Comment: "Amazing stay!", Rating: 5, Date: "2024-12-01"},
+		{Reviewer: "Bob", Comment: "Nice place but a bit noisy.", Rating: 4, Date: "2024-11-15"},
+		{Reviewer: "Claire", Comment: "Perfect for a weekend getaway.", Rating: 5, Date: "2024-11-10"},
+		{Reviewer: "Dan", Comment: "Had everything we needed.", Rating: 5, Date: "2024-10-20"},
+		{Reviewer: "Eva", Comment: "Great views and clean.", Rating: 4, Date: "2024-10-05"},
+		{Reviewer: "Frank", Comment: "Spacious and bright.", Rating: 5, Date: "2024-09-28"},
+	},
+	2: {
+		{Reviewer: "Gina", Comment: "Cozy and warm!", Rating: 5, Date: "2024-12-02"},
+		{Reviewer: "Harry", Comment: "Bit remote but peaceful.", Rating: 4, Date: "2024-11-17"},
+		{Reviewer: "Ivy", Comment: "Loved the fireplace.", Rating: 5, Date: "2024-11-03"},
+		{Reviewer: "Jake", Comment: "Snowy paradise!", Rating: 5, Date: "2024-10-21"},
+		{Reviewer: "Karen", Comment: "Not enough towels.", Rating: 3, Date: "2024-09-30"},
+	},
+	3: {
+		{Reviewer: "Liam", Comment: "Beachfront luxury!", Rating: 5, Date: "2024-12-03"},
+		{Reviewer: "Mona", Comment: "Could use better parking.", Rating: 4, Date: "2024-11-20"},
+		{Reviewer: "Nate", Comment: "Ocean sounds all night.", Rating: 5, Date: "2024-10-29"},
+		{Reviewer: "Olive", Comment: "Too hot inside.", Rating: 3, Date: "2024-10-10"},
+	},
+	4: {
+		{Reviewer: "Paul", Comment: "Close to everything!", Rating: 5, Date: "2024-12-04"},
+		{Reviewer: "Quinn", Comment: "Noisy at night.", Rating: 3, Date: "2024-11-22"},
+		{Reviewer: "Rita", Comment: "Great for city lovers.", Rating: 4, Date: "2024-10-19"},
+		{Reviewer: "Sam", Comment: "Clean and stylish.", Rating: 5, Date: "2024-10-02"},
+		{Reviewer: "Tina", Comment: "Felt like home.", Rating: 5, Date: "2024-09-14"},
+	},
+	5: {
+		{Reviewer: "Uma", Comment: "Desert beauty!", Rating: 5, Date: "2024-11-28"},
+		{Reviewer: "Victor", Comment: "Very quiet and relaxing.", Rating: 5, Date: "2024-11-12"},
+		{Reviewer: "Wendy", Comment: "Too isolated for me.", Rating: 3, Date: "2024-10-15"},
+	},
+	6: {
+		{Reviewer: "Xander", Comment: "Lake view was stunning.", Rating: 5, Date: "2024-12-05"},
+		{Reviewer: "Yara", Comment: "Fishing was great.", Rating: 5, Date: "2024-11-09"},
+		{Reviewer: "Zack", Comment: "We’ll come back!", Rating: 5, Date: "2024-10-12"},
+		{Reviewer: "Amy", Comment: "Very clean and comfortable.", Rating: 4, Date: "2024-09-27"},
+		{Reviewer: "Ben", Comment: "Loved the dock.", Rating: 5, Date: "2024-09-11"},
+	},
+	7: {
+		{Reviewer: "Cara", Comment: "Best mountain view ever!", Rating: 5, Date: "2024-11-25"},
+		{Reviewer: "Dylan", Comment: "Perfect cabin vibe.", Rating: 5, Date: "2024-11-08"},
+		{Reviewer: "Eli", Comment: "A bit chilly inside.", Rating: 4, Date: "2024-10-08"},
+		{Reviewer: "Faye", Comment: "Loved the trails nearby.", Rating: 5, Date: "2024-09-25"},
+	},
+	8: {
+		{Reviewer: "Gwen", Comment: "Tiny but mighty!", Rating: 4, Date: "2024-11-30"},
+		{Reviewer: "Hank", Comment: "Funky and cute!", Rating: 5, Date: "2024-11-13"},
+		{Reviewer: "Isaac", Comment: "Tight space for four.", Rating: 3, Date: "2024-10-11"},
+	},
+	9: {
+		{Reviewer: "Jill", Comment: "Loved the rustic charm.", Rating: 5, Date: "2024-12-06"},
+		{Reviewer: "Kyle", Comment: "Felt like a movie set.", Rating: 5, Date: "2024-11-26"},
+		{Reviewer: "Lara", Comment: "Cozy and romantic.", Rating: 5, Date: "2024-10-07"},
+	},
+	10: {
+		{Reviewer: "Matt", Comment: "Absolutely stunning!", Rating: 5, Date: "2024-12-07"},
+		{Reviewer: "Nina", Comment: "A dream stay!", Rating: 5, Date: "2024-11-29"},
+		{Reviewer: "Omar", Comment: "Worth every penny.", Rating: 5, Date: "2024-10-03"},
+		{Reviewer: "Pia", Comment: "Luxury at its best.", Rating: 5, Date: "2024-09-18"},
+		{Reviewer: "Ray", Comment: "Service could be better.", Rating: 4, Date: "2024-08-25"},
+	},
+}

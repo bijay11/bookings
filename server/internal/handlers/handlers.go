@@ -95,10 +95,13 @@ type ListingDetailsResponse struct {
 }
 
 type Review struct {
-	Reviewer string `json:"reviewer"`
-	Comment  string `json:"comment"`
-	Rating   int    `json:"rating"`
-	Date     string `json:"date"`
+	Reviewer  string `json:"reviewer"`
+	Location  string `json:"location"`   // e.g., "Pine Grove, Pennsylvania"
+	AvatarURL string `json:"avatar_url"` // link to reviewer photo
+	TripType  string `json:"trip_type"`  // e.g., "Group trip", "Family", etc.
+	Comment   string `json:"comment"`
+	Rating    int    `json:"rating"`
+	Date      string `json:"date"` // e.g., "2024-12-01"
 }
 
 // ReviewResponse is the API response for listing reviews
@@ -522,7 +525,6 @@ func (m *Repository) GetListingDetails(w http.ResponseWriter, r *http.Request) {
 
 // GetListingReviews fetches reviews for a specific listing
 func (m *Repository) GetListingReviews(w http.ResponseWriter, r *http.Request) {
-	// Extract listing ID from the URL
 	idParam := chi.URLParam(r, "id")
 	listingID, err := strconv.Atoi(idParam)
 	if err != nil {
@@ -532,13 +534,11 @@ func (m *Repository) GetListingReviews(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("Fetching reviews for listing ID: %d\n", listingID)
 
-	// Sample data (replace with real DB query)
-	reviews := []Review{
-		{Reviewer: "Alice", Comment: "Great stay! Beautiful views.", Rating: 5, Date: "2024-12-01"},
-		{Reviewer: "Bob", Comment: "Nice place but a bit noisy.", Rating: 4, Date: "2024-11-15"},
+	reviews, found := MockListingReviews[listingID]
+	if !found {
+		reviews = []Review{}
 	}
 
-	// Calculate average rating
 	var totalRating float64
 	for _, review := range reviews {
 		totalRating += float64(review.Rating)
