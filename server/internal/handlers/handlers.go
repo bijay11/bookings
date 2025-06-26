@@ -515,7 +515,6 @@ func (m *Repository) GetListingDetails(w http.ResponseWriter, r *http.Request) {
 	response := ListingDetailsResponse{
 		Data: MockListingDetails,
 	}
-	log.Println("===hello", response)
 
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(response)

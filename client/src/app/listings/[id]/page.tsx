@@ -2,13 +2,19 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import StarIcon from '@/components/StarIcon';
 import ProductImageCarousel from '@/components/ProductImageCarousel';
+import ReviewsModal from '@/components/ReviewsModal';
 
 interface Listing {
   id: number;
   title: string;
-  city: string;
-  state: string;
-  price_per_night: number;
+  location: {
+    city: string;
+    state: string;
+    zip_code?: string;
+  };
+  pricing: {
+    price_per_night: number;
+  };
   description: string;
   images: string[];
   amenities: string[];
@@ -16,52 +22,51 @@ interface Listing {
     name: string;
     avatar_url: string;
   };
-}
-
-interface Review {
-  reviewer: string;
-  comment: string;
-  rating: number;
-  date: string;
+  review_summary: {
+    average_rating: number;
+    total_reviews: number;
+  };
 }
 
 interface ListingResponse {
   data: Listing;
 }
 
-interface ReviewResponse {
-  reviews: Review[];
-}
-
 export default async function ListingPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
   const { id } = await params;
 
+  // Fetch listing data
   const resListing = await fetch(`http://localhost:8080/api/listings/${id}`, {
     cache: 'no-store',
   });
-  const resReview = await fetch(
-    `http://localhost:8080/api/listings/${id}/reviews`,
-    {
-      cache: 'no-store',
-    }
-  );
 
   if (!resListing.ok) return notFound();
-  const listingJson: ListingResponse = await resListing.json();
-  const reviewsJson: ReviewResponse = await resReview.json();
 
-  const l = listingJson.data;
-  const reviews = reviewsJson.reviews;
+  const {
+    data: {
+      review_summary,
+      location,
+      pricing,
+      description,
+      images,
+      title,
+      host,
+      amenities,
+    },
+  }: ListingResponse = await resListing.json();
+
+  const fullStars = Math.floor(review_summary.average_rating);
+  const hasHalfStar = review_summary.average_rating % 1 >= 0.5;
 
   return (
     <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Image Gallery */}
       <div className="mb-8">
-        <ProductImageCarousel images={l.images} title={l.title} />
+        <ProductImageCarousel images={images} title={title} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -70,7 +75,7 @@ export default async function ListingPage({
           {/* Title and Location */}
           <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-              {l.title}
+              {title}
             </h1>
             <div className="flex items-center mt-2 text-lg text-gray-600">
               <svg
@@ -93,14 +98,62 @@ export default async function ListingPage({
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              {l.city}, {l.state}
+              {location.city}, {location.state}
             </div>
           </div>
+
+          {/* Reviews Summary */}
+          <ReviewsModal
+            listingId={id}
+            averageRating={review_summary.average_rating}
+            reviewCount={review_summary.total_reviews}
+            initialReviews={[]}
+          >
+            <div className="mb-6 cursor-pointer">
+              <div className="flex items-center">
+                <div className="flex mr-2">
+                  {[...Array(5)].map((_, i) => {
+                    if (i < fullStars) {
+                      return (
+                        <StarIcon
+                          key={i}
+                          className="w-5 h-5 text-yellow-500 fill-current"
+                        />
+                      );
+                    } else if (i === fullStars && hasHalfStar) {
+                      return (
+                        <div key={i} className="relative w-5 h-5">
+                          <StarIcon className="absolute w-5 h-5 text-gray-300 fill-current" />
+                          <div className="absolute w-2.5 h-5 overflow-hidden">
+                            <StarIcon className="w-5 h-5 text-yellow-500 fill-current" />
+                          </div>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <StarIcon
+                          key={i}
+                          className="w-5 h-5 text-gray-300 fill-current"
+                        />
+                      );
+                    }
+                  })}
+                </div>
+                <span className="text-lg font-semibold">
+                  {review_summary.average_rating}
+                </span>
+                <span className="mx-2">·</span>
+                <span className="text-gray-600 underline">
+                  {review_summary.total_reviews} reviews
+                </span>
+              </div>
+            </div>
+          </ReviewsModal>
 
           {/* Price */}
           <div className="mb-6 p-4 bg-gray-50 rounded-lg">
             <p className="text-2xl font-semibold text-gray-900">
-              ${l.price_per_night}{' '}
+              ${pricing.price_per_night}{' '}
               <span className="text-lg font-normal text-gray-600">night</span>
             </p>
           </div>
@@ -110,7 +163,7 @@ export default async function ListingPage({
             <h2 className="text-xl font-semibold mb-3 text-gray-900">
               About this place
             </h2>
-            <p className="text-gray-700 leading-relaxed">{l.description}</p>
+            <p className="text-gray-700 leading-relaxed">{description}</p>
           </div>
 
           {/* Amenities */}
@@ -119,7 +172,7 @@ export default async function ListingPage({
               Amenities
             </h2>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {l.amenities.map((a, i) => (
+              {amenities.map((a, i) => (
                 <li key={i} className="flex items-center">
                   <svg
                     className="w-5 h-5 mr-2 text-green-500"
@@ -140,43 +193,6 @@ export default async function ListingPage({
               ))}
             </ul>
           </div>
-
-          {/* Reviews */}
-          {reviews.length > 0 && (
-            <div className="mt-8">
-              <h2 className="text-2xl font-bold mb-6 text-gray-900">Reviews</h2>
-              <div className="space-y-6">
-                {reviews.map((review, idx) => (
-                  <div
-                    key={idx}
-                    className="p-6 bg-white rounded-lg border border-gray-200 shadow-sm"
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <span className="font-semibold text-gray-900">
-                          {review.reviewer}
-                        </span>
-                        <p className="text-sm text-gray-500">
-                          {new Date(review.date).toLocaleDateString(undefined, {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}
-                        </p>
-                      </div>
-                      <span className="flex items-center px-2 py-1 bg-gray-100 rounded-full">
-                        <StarIcon className="w-4 h-4 text-yellow-500" />
-                        <span className="ml-1 text-sm font-medium">
-                          {review.rating}
-                        </span>
-                      </span>
-                    </div>
-                    <p className="text-gray-600">{review.comment}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Sidebar */}
@@ -189,12 +205,12 @@ export default async function ListingPage({
               </h2>
               <div className="flex items-center gap-4">
                 <img
-                  src={l.host.avatar_url}
-                  alt={l.host.name}
+                  src={host.avatar_url}
+                  alt={host.name}
                   className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
                 />
                 <div>
-                  <p className="font-semibold text-gray-900">{l.host.name}</p>
+                  <p className="font-semibold text-gray-900">{host.name}</p>
                   <p className="text-sm text-gray-500">Superhost</p>
                 </div>
               </div>
@@ -205,18 +221,27 @@ export default async function ListingPage({
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <p className="text-xl font-semibold text-gray-900">
-                    ${l.price_per_night}{' '}
+                    ${pricing.price_per_night}{' '}
                     <span className="text-base font-normal">night</span>
                   </p>
                 </div>
-                <div className="flex items-center">
-                  <StarIcon className="w-4 h-4 text-yellow-500" />
-                  <span className="ml-1 text-sm font-medium">4.89</span>
-                  <span className="mx-1">·</span>
-                  <span className="text-sm text-gray-600 underline">
-                    24 reviews
-                  </span>
-                </div>
+                <ReviewsModal
+                  listingId={id}
+                  averageRating={review_summary.average_rating}
+                  reviewCount={review_summary.total_reviews}
+                  initialReviews={[]}
+                >
+                  <div className="flex items-center cursor-pointer">
+                    <StarIcon className="w-4 h-4 text-yellow-500" />
+                    <span className="ml-1 text-sm font-medium">
+                      {review_summary.average_rating}
+                    </span>
+                    <span className="mx-1">·</span>
+                    <span className="text-sm text-gray-600 underline">
+                      {review_summary.total_reviews} reviews
+                    </span>
+                  </div>
+                </ReviewsModal>
               </div>
               <button className="w-full bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out">
                 Reserve
