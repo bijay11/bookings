@@ -95,13 +95,14 @@ type ListingDetailsResponse struct {
 }
 
 type Review struct {
-	Reviewer  string `json:"reviewer"`
-	Location  string `json:"location"`   // e.g., "Pine Grove, Pennsylvania"
-	AvatarURL string `json:"avatar_url"` // link to reviewer photo
-	TripType  string `json:"trip_type"`  // e.g., "Group trip", "Family", etc.
-	Comment   string `json:"comment"`
-	Rating    int    `json:"rating"`
-	Date      string `json:"date"` // e.g., "2024-12-01"
+	ReviewerID string `json:"-"` // Front-end doesnt need this ID
+	Reviewer   string `json:"reviewer"`
+	Location   string `json:"location"`
+	AvatarURL  string `json:"avatar_url"`
+	TripType   string `json:"trip_type"`
+	Comment    string `json:"comment"`
+	Rating     int    `json:"rating"`
+	Date       string `json:"date"`
 }
 
 // ReviewResponse is the API response for listing reviews
