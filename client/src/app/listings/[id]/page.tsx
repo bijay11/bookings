@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import StarIcon from '@/components/StarIcon';
 import ProductImageCarousel from '@/components/ProductImageCarousel';
 import ReviewsModal from '@/components/ReviewsModal';
+import DateRangePicker from '@/components/DateRangerPicker';
 
 interface Listing {
   id: number;
@@ -218,30 +219,19 @@ export default async function ListingPage({
 
             {/* Booking Widget */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <div className="flex justify-between items-center mb-4">
-                <div>
-                  <p className="text-xl font-semibold text-gray-900">
-                    ${pricing.price_per_night}{' '}
-                    <span className="text-base font-normal">night</span>
-                  </p>
-                </div>
-                <ReviewsModal
-                  listingId={id}
-                  averageRating={review_summary.average_rating}
-                  reviewCount={review_summary.total_reviews}
-                  initialReviews={[]}
-                >
-                  <div className="flex items-center cursor-pointer">
-                    <StarIcon className="w-4 h-4 text-yellow-500" />
-                    <span className="ml-1 text-sm font-medium">
-                      {review_summary.average_rating}
-                    </span>
-                    <span className="mx-1">·</span>
-                    <span className="text-sm text-gray-600 underline">
-                      {review_summary.total_reviews} reviews
-                    </span>
-                  </div>
-                </ReviewsModal>
+              <div className="mb-4">
+                <p className="text-xl font-semibold text-gray-900 mb-4">
+                  ${pricing.price_per_night}{' '}
+                  <span className="text-base font-normal">night</span>
+                </p>
+
+                <DateRangePicker
+                  startPlaceholder="03/27/2025"
+                  endPlaceholder="03/27/2025"
+                  className="mb-6"
+                  startDate={new Date('2025-03-27')}
+                  endDate={new Date('2025-03-27')}
+                />
               </div>
               <button className="w-full bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out">
                 Reserve

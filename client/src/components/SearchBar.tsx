@@ -1,7 +1,8 @@
+// components/SearchBar.tsx
 'use client';
+
 import { useState, useRef, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DateRangePicker from './DateRangerPicker';
 
 export default function SearchBar() {
   const [destination, setDestination] = useState('');
@@ -9,14 +10,8 @@ export default function SearchBar() {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [guests, setGuests] = useState(1);
   const [isGuestMenuOpen, setIsGuestMenuOpen] = useState(false);
-  const [activePicker, setActivePicker] = useState<
-    'checkin' | 'checkout' | 'guests' | null
-  >(null);
   const guestRef = useRef<HTMLDivElement>(null);
-  const checkInRef = useRef<DatePicker>(null);
-  const checkOutRef = useRef<DatePicker>(null);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -25,7 +20,6 @@ export default function SearchBar() {
       ) {
         setIsGuestMenuOpen(false);
       }
-      // Don't close date picker when clicking outside - let react-datepicker handle it
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -43,29 +37,8 @@ export default function SearchBar() {
     window.location.href = `/search?${query}`;
   };
 
-  const formatDate = (date: Date | null) => {
-    if (!date) return 'Add dates';
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  };
-
-  const handleDatePickerOpen = (picker: 'checkin' | 'checkout') => {
-    setIsGuestMenuOpen(false);
-
-    if (picker === 'checkin') {
-      setActivePicker('checkin');
-      checkInRef.current?.setOpen(true);
-      checkOutRef.current?.setOpen(false);
-    } else {
-      setActivePicker('checkout');
-      checkOutRef.current?.setOpen(true);
-      checkInRef.current?.setOpen(false);
-    }
-  };
-
   const handleGuestMenuToggle = () => {
     setIsGuestMenuOpen(!isGuestMenuOpen);
-    checkInRef.current?.setOpen(false);
-    checkOutRef.current?.setOpen(false);
   };
 
   return (
@@ -82,61 +55,25 @@ export default function SearchBar() {
         />
       </div>
 
-      {/* Check In */}
+      {/* Date Range Picker */}
       <div className="px-4 py-2 md:border-r border-gray-200 flex-1 min-w-0">
-        <div className="text-xs font-semibold text-gray-800">Check in</div>
-        <DatePicker
-          ref={checkInRef}
-          selected={startDate}
-          onChange={(date: Date | null) => {
-            setStartDate(date);
-            if (date) {
-              setActivePicker('checkout');
-              checkOutRef.current?.setOpen(true);
-            }
+        <DateRangePicker
+          onDatesChange={(start, end) => {
+            setStartDate(start);
+            setEndDate(end);
           }}
-          onCalendarOpen={() => setActivePicker('checkin')}
-          onCalendarClose={() => setActivePicker(null)}
-          selectsStart
-          startDate={startDate}
-          endDate={endDate}
-          placeholderText="Add dates"
-          className="outline-none text-sm cursor-pointer w-full"
-          customInput={
-            <div
-              className="text-sm"
-              onClick={() => handleDatePickerOpen('checkin')}
-            >
-              {formatDate(startDate)}
-            </div>
-          }
+          className="hidden md:flex"
+          align="center"
         />
-      </div>
-
-      {/* Check Out */}
-      <div className="px-4 py-2 md:border-r border-gray-200 flex-1 min-w-0">
-        <div className="text-xs font-semibold text-gray-800">Check out</div>
-        <DatePicker
-          ref={checkOutRef}
-          selected={endDate}
-          onChange={(date: Date | null) => setEndDate(date)}
-          onCalendarOpen={() => setActivePicker('checkout')}
-          onCalendarClose={() => setActivePicker(null)}
-          selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          minDate={startDate}
-          placeholderText="Add dates"
-          className="outline-none text-sm cursor-pointer w-full"
-          customInput={
-            <div
-              className="text-sm"
-              onClick={() => handleDatePickerOpen('checkout')}
-            >
-              {formatDate(endDate)}
-            </div>
-          }
-        />
+        {/* Mobile version */}
+        <div className="md:hidden flex flex-col">
+          <div className="text-xs font-semibold text-gray-800">Dates</div>
+          <div className="text-sm text-gray-500">
+            {startDate && endDate
+              ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
+              : 'Add dates'}
+          </div>
+        </div>
       </div>
 
       {/* Guests */}
