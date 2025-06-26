@@ -94,12 +94,17 @@ var MockListings = []Listing{
 }
 
 var MockListingDetails = ListingDetails{
-	ID:            1,
-	Title:         "Modern Loft in San Francisco",
-	City:          "San Francisco",
-	State:         "CA",
-	PricePerNight: 210,
-	Description:   "Spacious loft with beautiful views...",
+	ID:    1,
+	Title: "Modern Loft in San Francisco",
+	Location: Location{
+		City:    "San Francisco",
+		State:   "CA",
+		ZipCode: "94103",
+	},
+	Pricing: Pricing{
+		PricePerNight: 210,
+	},
+	Description: "Spacious loft with beautiful views...",
 	Images: []string{
 		"https://picsum.photos/800/600?random=1",
 		"https://picsum.photos/800/600?random=2",
@@ -109,5 +114,9 @@ var MockListingDetails = ListingDetails{
 	Host: Host{
 		Name:      "Jane Doe",
 		AvatarURL: "https://picsum.photos/800/600?random=4",
+	},
+	Review: ReviewSummary{
+		AverageRating: 4.5,
+		TotalReviews:  52,
 	},
 }

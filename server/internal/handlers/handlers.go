@@ -43,6 +43,17 @@ type jsonResponse struct {
 	EndDate   string `json:"end_date"`
 }
 
+type Location struct {
+	City    string `json:"city"`
+	State   string `json:"state"`
+	ZipCode string `json:"zip_code,omitempty"` // optional
+}
+
+type Pricing struct {
+	PricePerNight float64 `json:"price_per_night"`
+	// Could be extended with discounts, cleaning_fee, currency, etc.
+}
+
 type ReviewSummary struct {
 	AverageRating float64 `json:"average_rating"`
 	TotalReviews  int     `json:"total_reviews"`
@@ -68,15 +79,15 @@ type Host struct {
 }
 
 type ListingDetails struct {
-	ID            int      `json:"id"`
-	Title         string   `json:"title"`
-	City          string   `json:"city"`
-	State         string   `json:"state"`
-	PricePerNight float64  `json:"price_per_night"`
-	Description   string   `json:"description"`
-	Images        []string `json:"images"`
-	Amenities     []string `json:"amenities"`
-	Host          Host     `json:"host"`
+	ID          int           `json:"id"`
+	Title       string        `json:"title"`
+	Location    Location      `json:"location"`
+	Pricing     Pricing       `json:"pricing"`
+	Description string        `json:"description"`
+	Images      []string      `json:"images"`
+	Amenities   []string      `json:"amenities"`
+	Host        Host          `json:"host"`
+	Review      ReviewSummary `json:"review_summary"`
 }
 
 type ListingDetailsResponse struct {
@@ -504,6 +515,7 @@ func (m *Repository) GetListingDetails(w http.ResponseWriter, r *http.Request) {
 	response := ListingDetailsResponse{
 		Data: MockListingDetails,
 	}
+	log.Println("===hello", response)
 
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(response)
