@@ -3,7 +3,7 @@ import StarIcon from '@/components/StarIcon';
 import ProductImageCarousel from '@/components/ProductImageCarousel';
 import ReviewsModal from '@/components/ReviewsModal';
 import DateRangePicker from '@/components/DateRangerPicker';
-import BookingWidget from '@/components/BookingWidget';
+import { GuestSelectorWrapper } from '@/components/GuestSelectorWrapper';
 
 interface Listing {
   id: number;
@@ -232,7 +232,7 @@ export default async function ListingPage({
                   startDate={new Date('2025-03-27')}
                   endDate={new Date('2025-03-27')}
                 />
-                <BookingWidget
+                <GuestSelectorWrapper
                   pricePerNight={pricing.price_per_night}
                   initialAdults={2}
                 />
