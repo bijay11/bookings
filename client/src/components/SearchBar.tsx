@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import DateRangePicker from './DateRangerPicker';
+import { DateRangePicker } from './DateRangerPicker';
 
 export default function SearchBar() {
   const [destination, setDestination] = useState('');

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import StarIcon from '@/components/StarIcon';
 import ProductImageCarousel from '@/components/ProductImageCarousel';
 import ReviewsModal from '@/components/ReviewsModal';
-import DateRangePicker from '@/components/DateRangerPicker';
+import { DateRangePicker } from '@/components/DateRangerPicker';
 import { GuestSelectorWrapper } from '@/components/GuestSelectorWrapper';
 
 interface Listing {
@@ -231,6 +231,7 @@ export default async function ListingPage({
                   className="mb-6"
                   startDate={new Date('2025-03-27')}
                   endDate={new Date('2025-03-27')}
+                  variant="bordered"
                 />
                 <GuestSelectorWrapper
                   pricePerNight={pricing.price_per_night}
