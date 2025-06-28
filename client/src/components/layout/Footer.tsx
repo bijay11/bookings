@@ -1,4 +1,4 @@
-export default function Footer() {
+export function Footer() {
   return (
     <footer className="border-t px-6 py-4 text-sm bg-gray-100 text-gray-600 flex justify-between items-center">
       <p>&copy; 2025 Home Stay</p>

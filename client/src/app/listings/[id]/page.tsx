@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import StarIcon from '@/components/StarIcon';
-import ProductImageCarousel from '@/components/ProductImageCarousel';
+import { ProductImageCarousel } from '@/components/ui/carousel';
 import ReviewsModal from '@/components/ReviewsModal';
 import { DateRangePicker } from '@/components/DateRangerPicker';
 import { GuestSelectorWrapper } from '@/components/GuestSelectorWrapper';
