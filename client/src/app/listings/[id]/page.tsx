@@ -106,7 +106,7 @@ export default async function ListingPage({
           </div>
 
           {/* Reviews Summary */}
-          <div className="bg-gray-200 rounded-xl p-4">
+          <div className="bg-gray-200 rounded-xl p-4 mb-6">
             <ReviewsModal
               listingId={id}
               averageRating={review_summary.average_rating}
@@ -243,7 +243,7 @@ export default async function ListingPage({
               <div className="mb-4">
                 <p className="text-xl font-semibold text-gray-900 mb-4">
                   ${pricing.price_per_night}{' '}
-                  <span className="text-base font-normal">night</span>
+                  <span className="text-base font-normal">/ night</span>
                 </p>
 
                 <DateRangePicker
