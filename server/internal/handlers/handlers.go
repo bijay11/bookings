@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -111,6 +113,12 @@ type ReviewResponse struct {
 	AverageRating float64  `json:"average_rating"`
 	TotalReviews  int      `json:"total_reviews"`
 	Reviews       []Review `json:"reviews"`
+}
+
+// Request payload struct
+type AskPayload struct {
+	ListingID string `json:"listing_id"`
+	Question  string `json:"question"`
 }
 
 // Creates a new repository
@@ -848,4 +856,45 @@ func (m *Repository) AdminDeleteReservation(w http.ResponseWriter, r *http.Reque
 	m.App.Session.Put(r.Context(), "flash", "Reservation deleted")
 
 	http.Redirect(w, r, fmt.Sprintf("/admin/reservations-%s", src), http.StatusSeeOther)
+}
+
+func (m *Repository) AskAboutReviews(w http.ResponseWriter, r *http.Request) {
+	var payload AskPayload
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		http.Error(w, "invalid JSON payload: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if payload.ListingID == "" || payload.Question == "" {
+		http.Error(w, "missing listing_id or question in body", http.StatusBadRequest)
+		return
+	}
+
+	pythonURL := fmt.Sprintf(
+		"http://localhost:8000/ask?listing_id=%s&question=%s",
+		url.QueryEscape(payload.ListingID),
+		url.QueryEscape(payload.Question),
+	)
+
+	resp, err := http.Get(pythonURL)
+	if err != nil {
+		http.Error(w, "failed to contact Python LLM service: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		http.Error(w, "Python service returned status "+resp.Status, http.StatusInternalServerError)
+		return
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		http.Error(w, "failed to read Python response: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(body)
 }
