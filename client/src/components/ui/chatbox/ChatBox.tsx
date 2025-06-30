@@ -89,7 +89,7 @@ export function ChatBox({ id, isOpen, onClose }: ChatBoxProps) {
         <button
           onClick={onClose}
           aria-label="Close chat"
-          className="hover:bg-gray-900 rounded-full p-1 transition"
+          className="hover:bg-gray-900 rounded-full p-1 transition cursor-pointer"
         >
           <XMarkIcon className="h-5 w-5 text-white" />
         </button>
@@ -149,7 +149,7 @@ export function ChatBox({ id, isOpen, onClose }: ChatBoxProps) {
   );
 }
 
-export function AiChatbotTypingLoader() {
+function AiChatbotTypingLoader() {
   return (
     <div className="flex items-center space-x-3">
       {/* Robot SVG: square head, antenna, friendly face */}

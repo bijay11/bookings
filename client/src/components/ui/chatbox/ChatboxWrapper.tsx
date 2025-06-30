@@ -7,17 +7,17 @@ export function ChatBoxWrapper({ id, text }: { id: string, text: string }) {
 
   return (
     <>
-      <h4 className="text-lg font-semibold">
+      <p>
         {`${text} `}
         <button
           onClick={() => setChatOpen(true)}
-          className="text-indigo-600 hover:underline focus:outline-none cursor-pointer"
+          className="text-indigo-600 hover:underline focus:outline-none cursor-pointer font-bold"
           aria-label="Open Ask AI Chat"
           type="button"
         >
           Ask AI
         </button>
-      </h4>
+      </p>
 
       <ChatBox id={id} isOpen={chatOpen} onClose={() => setChatOpen(false)} />
     </>

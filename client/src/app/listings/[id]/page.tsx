@@ -106,97 +106,114 @@ export default async function ListingPage({
           </div>
 
           {/* Reviews Summary */}
-          <ReviewsModal
-            listingId={id}
-            averageRating={review_summary.average_rating}
-            reviewCount={review_summary.total_reviews}
-            initialReviews={[]}
-          >
-            <div className="mb-6 cursor-pointer">
-              <div className="flex items-center">
-                <div className="flex mr-2">
-                  {[...Array(5)].map((_, i) => {
-                    if (i < fullStars) {
-                      return (
-                        <StarIcon
-                          key={i}
-                          className="w-5 h-5 text-yellow-500 fill-current"
-                        />
-                      );
-                    } else if (i === fullStars && hasHalfStar) {
-                      return (
-                        <div key={i} className="relative w-5 h-5">
-                          <StarIcon className="absolute w-5 h-5 text-gray-300 fill-current" />
-                          <div className="absolute w-2.5 h-5 overflow-hidden">
-                            <StarIcon className="w-5 h-5 text-yellow-500 fill-current" />
+          <div className="bg-gray-200 rounded-xl p-4">
+            <ReviewsModal
+              listingId={id}
+              averageRating={review_summary.average_rating}
+              reviewCount={review_summary.total_reviews}
+              initialReviews={[]}
+            >
+              <div className="mb-6 cursor-pointer">
+                <div className="flex items-center">
+                  <div className="flex mr-2">
+                    {[...Array(5)].map((_, i) => {
+                      if (i < fullStars) {
+                        return (
+                          <StarIcon
+                            key={i}
+                            className="w-5 h-5 text-yellow-500 fill-current"
+                          />
+                        );
+                      } else if (i === fullStars && hasHalfStar) {
+                        return (
+                          <div key={i} className="relative w-5 h-5">
+                            <StarIcon className="absolute w-5 h-5 text-gray-300 fill-current" />
+                            <div className="absolute w-2.5 h-5 overflow-hidden">
+                              <StarIcon className="w-5 h-5 text-yellow-500 fill-current" />
+                            </div>
                           </div>
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <StarIcon
-                          key={i}
-                          className="w-5 h-5 text-gray-300 fill-current"
-                        />
-                      );
-                    }
-                  })}
+                        );
+                      } else {
+                        return (
+                          <StarIcon
+                            key={i}
+                            className="w-5 h-5 text-gray-300 fill-current"
+                          />
+                        );
+                      }
+                    })}
+                  </div>
+                  <span className="text-lg font-semibold">
+                    {review_summary.average_rating}
+                  </span>
+                  <span className="mx-2">·</span>
+                  <span className="text-gray-600 underline">
+                    {review_summary.total_reviews} reviews
+                  </span>
                 </div>
-                <span className="text-lg font-semibold">
-                  {review_summary.average_rating}
-                </span>
-                <span className="mx-2">·</span>
-                <span className="text-gray-600 underline">
-                  {review_summary.total_reviews} reviews
-                </span>
               </div>
-            </div>
-          </ReviewsModal>
+            </ReviewsModal>
 
-          <ChatBoxWrapper id={id} text = "Don't you have time to go through all the reviews?" />
+            <ChatBoxWrapper
+              id={id}
+              text="Don't you have time to go through all the reviews?"
+            />
+          </div>
 
           {/* Price */}
-          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-            <p className="text-2xl font-semibold text-gray-900">
-              ${pricing.price_per_night}{' '}
-              <span className="text-lg font-normal text-gray-600">night</span>
-            </p>
-          </div>
+          <div className="relative border border-gray-300 rounded-xl p-5 mb-8 bg-gradient-to-br from-white via-gray-50 to-white shadow-sm">
+            <span className="absolute -top-3 left-4 bg-white px-3 text-xs font-medium text-gray-500 uppercase tracking-wide">
+              Details
+            </span>
 
-          {/* Description */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-3 text-gray-900">
-              About this place
-            </h2>
-            <p className="text-gray-700 leading-relaxed">{description}</p>
-          </div>
+            <div className="mb-8">
+              <div className="text-3xl font-bold text-gray-900 flex items-end">
+                ${pricing.price_per_night}
+                <span className="text-base font-normal text-gray-500 ml-1">
+                  / night
+                </span>
+              </div>
 
-          {/* Amenities */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900">
-              Amenities
-            </h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {amenities.map((a, i) => (
-                <li key={i} className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-2 text-green-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                  <span className="text-gray-700">{a}</span>
-                </li>
-              ))}
-            </ul>
+              <p className="mt-2 text-sm text-gray-600">
+                Includes all basic amenities and taxes.
+              </p>
+            </div>
+
+            {/* Description */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-3 text-gray-900">
+                About this place
+              </h2>
+              <p className="text-gray-700 leading-relaxed">{description}</p>
+            </div>
+
+            {/* Amenities */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4 text-gray-900">
+                Amenities
+              </h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {amenities.map((a, i) => (
+                  <li key={i} className="flex items-center">
+                    <svg
+                      className="w-5 h-5 mr-2 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      ></path>
+                    </svg>
+                    <span className="text-gray-700">{a}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -242,7 +259,7 @@ export default async function ListingPage({
                   initialAdults={2}
                 />
               </div>
-              <button className="w-full bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out">
+              <button className="w-full bg-sky-500 hover:bg-sky-700 text-white font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out">
                 Reserve
               </button>
             </div>
