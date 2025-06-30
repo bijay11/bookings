@@ -4,7 +4,8 @@ import { ProductImageCarousel } from '@/components/ui/carousel';
 import ReviewsModal from '@/components/ReviewsModal';
 import { DateRangePicker } from '@/components/DateRangerPicker';
 import { GuestSelectorWrapper } from '@/components/GuestSelectorWrapper';
-import { ChatBox } from '@/components/ui/ChatBox';
+import { ChatBox } from '@/components/ui/chatbox/ChatBox';
+import { ChatBoxWrapper } from '@/components/ui/chatbox/ChatboxWrapper';
 
 interface Listing {
   id: number;
@@ -152,9 +153,7 @@ export default async function ListingPage({
             </div>
           </ReviewsModal>
 
-          <h4>
-            Do you want to ask AI? <ChatBox id ={id} />
-          </h4>
+          <ChatBoxWrapper id={id} text = "Don't you have time to go through all the reviews?" />
 
           {/* Price */}
           <div className="mb-6 p-4 bg-gray-50 rounded-lg">

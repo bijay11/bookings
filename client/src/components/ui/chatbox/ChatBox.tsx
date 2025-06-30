@@ -8,8 +8,13 @@ interface ChatEntry {
   answer: string | null; // null means answer loading
 }
 
-export function ChatBox({ id }: { id: string }) {
-  const [isOpen, setIsOpen] = useState(false);
+interface ChatBoxProps {
+  id: string;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function ChatBox({ id, isOpen, onClose }: ChatBoxProps) {
   const [question, setQuestion] = useState('');
   const [history, setHistory] = useState<ChatEntry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -18,6 +23,8 @@ export function ChatBox({ id }: { id: string }) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history, isOpen]);
+
+  if (!isOpen) return null; // Don't render if not open
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +43,7 @@ export function ChatBox({ id }: { id: string }) {
       const res = await fetch('http://localhost:8080/ask-about-reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          listing_id: id,
-          question: currentQuestion,
-        }),
+        body: JSON.stringify({ listing_id: id, question: currentQuestion }),
       });
 
       if (!res.ok) {
@@ -73,93 +77,75 @@ export function ChatBox({ id }: { id: string }) {
   };
 
   return (
-    <>
-      {/* Floating Chat Button */}
-      {!isOpen && (
+    <div
+      className="fixed bottom-6 right-6 w-80 max-w-[95vw] bg-white border rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 h-[480px]"
+      role="dialog"
+      aria-modal="true"
+      aria-label="AI Chatbox"
+    >
+      {/* Header */}
+      <div className="bg-black text-white px-4 py-3 flex items-center justify-between">
+        <span className="font-semibold text-sm">Ask AI</span>
         <button
-          className="fixed bottom-6 right-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition"
-          onClick={() => setIsOpen(true)}
-          aria-label="Open AI Chat"
+          onClick={onClose}
+          aria-label="Close chat"
+          className="hover:bg-gray-900 rounded-full p-1 transition"
         >
-          <ChatBubbleLeftRightIcon className="h-6 w-6" />
+          <XMarkIcon className="h-5 w-5 text-white" />
         </button>
-      )}
+      </div>
 
-      {/* Chat Window */}
-      {isOpen && (
-        <div
-          className="fixed bottom-6 right-6 w-80 max-w-[95vw] bg-white border rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 h-[480px]"
-          role="dialog"
-          aria-modal="true"
-          aria-label="AI Chatbox"
+      {/* Chat Area */}
+      <div className="flex-1 p-4 overflow-y-auto text-sm space-y-4 bg-gray-50">
+        {history.length === 0 && (
+          <p className="text-gray-700 mb-2">
+            👋 Hi! Ask me anything about this place.
+          </p>
+        )}
+        {history.map(({ question, answer }, idx) => (
+          <div key={idx} className="space-y-1">
+            <div className="text-right text-black font-medium">{question}</div>
+            <div className="text-left bg-white rounded-lg px-3 py-2 shadow border text-gray-800 flex items-center min-h-[40px]">
+              {answer === null ? <AiChatbotTypingLoader /> : answer}
+            </div>
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input */}
+      <div className="border-t p-3 bg-white">
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center space-x-2"
+          aria-label="Ask your question"
         >
-          {/* Header */}
-          <div className="bg-black text-white px-4 py-3 flex items-center justify-between">
-            <span className="font-semibold text-sm">Ask AI</span>
-            <button
-              onClick={() => setIsOpen(false)}
-              aria-label="Close chat"
-              className="hover:bg-gray-900 rounded-full p-1 transition"
-            >
-              <XMarkIcon className="h-5 w-5 text-white" />
-            </button>
-          </div>
-
-          {/* Chat Area */}
-          <div className="flex-1 p-4 overflow-y-auto text-sm space-y-4 bg-gray-50">
-            {history.length === 0 && (
-              <p className="text-gray-700 mb-2">
-                👋 Hi! Ask me anything about this place.
-              </p>
-            )}
-            {history.map(({ question, answer }, idx) => (
-              <div key={idx} className="space-y-1">
-                <div className="text-right text-black font-medium">
-                  {question}
-                </div>
-                <div className="text-left bg-white rounded-lg px-3 py-2 shadow border text-gray-800 flex items-center min-h-[40px]">
-                  {answer === null ? <AiChatbotTypingLoader /> : answer}
-                </div>
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input */}
-          <div className="border-t p-3 bg-white">
-            <form
-              onSubmit={handleSubmit}
-              className="flex items-center space-x-2"
-              aria-label="Ask your question"
-            >
-              <input
-                type="text"
-                placeholder="Ask a question..."
-                className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                disabled={loading}
-                aria-disabled={loading}
-                aria-label="Type your question"
-                autoFocus
-              />
-              <button
-                type="submit"
-                disabled={loading || !question.trim()}
-                className={`text-sm px-4 py-2 rounded-lg transition font-semibold ${
-                  loading || !question.trim()
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow'
-                }`}
-                aria-disabled={loading || !question.trim()}
-              >
-                Send
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-    </>
+          <input
+            type="text"
+            placeholder="Ask a question..."
+            className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            disabled={loading}
+            aria-disabled={loading}
+            aria-label="Type your question"
+            autoFocus
+          />
+          <button
+            type="submit"
+            disabled={loading || !question.trim()}
+            className={`text-sm px-4 py-2 rounded-lg transition font-semibold ${
+              loading || !question.trim()
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow'
+            }`}
+            aria-disabled={loading || !question.trim()}
+          >
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 
