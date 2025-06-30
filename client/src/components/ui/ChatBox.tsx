@@ -74,6 +74,7 @@ export function ChatBox({ id }: { id: string }) {
 
   return (
     <>
+      {/* Floating Chat Button */}
       {!isOpen && (
         <button
           className="fixed bottom-6 right-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition"
@@ -84,29 +85,39 @@ export function ChatBox({ id }: { id: string }) {
         </button>
       )}
 
+      {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-80 max-w-[90%] bg-white border rounded-2xl shadow-xl flex flex-col overflow-hidden z-50 h-[480px]">
+        <div
+          className="fixed bottom-6 right-6 w-80 max-w-[95vw] bg-white border rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 h-[480px]"
+          role="dialog"
+          aria-modal="true"
+          aria-label="AI Chatbox"
+        >
           {/* Header */}
           <div className="bg-black text-white px-4 py-3 flex items-center justify-between">
             <span className="font-semibold text-sm">Ask AI</span>
-            <button onClick={() => setIsOpen(false)} aria-label="Close chat">
+            <button
+              onClick={() => setIsOpen(false)}
+              aria-label="Close chat"
+              className="hover:bg-gray-900 rounded-full p-1 transition"
+            >
               <XMarkIcon className="h-5 w-5 text-white" />
             </button>
           </div>
 
           {/* Chat Area */}
-          <div className="flex-1 p-4 overflow-y-auto text-sm space-y-4">
+          <div className="flex-1 p-4 overflow-y-auto text-sm space-y-4 bg-gray-50">
             {history.length === 0 && (
               <p className="text-gray-700 mb-2">
-                Hi! Ask me anything about this place.
+                👋 Hi! Ask me anything about this place.
               </p>
             )}
             {history.map(({ question, answer }, idx) => (
               <div key={idx} className="space-y-1">
-                <div className="text-right text-sm text-black font-medium">
+                <div className="text-right text-black font-medium">
                   {question}
                 </div>
-                <div className="text-left bg-gray-100 rounded p-2 text-gray-800">
+                <div className="text-left bg-white rounded-lg px-3 py-2 shadow border text-gray-800 flex items-center min-h-[40px]">
                   {answer === null ? <AiChatbotTypingLoader /> : answer}
                 </div>
               </div>
@@ -115,27 +126,32 @@ export function ChatBox({ id }: { id: string }) {
           </div>
 
           {/* Input */}
-          <div className="border-t p-3">
+          <div className="border-t p-3 bg-white">
             <form
               onSubmit={handleSubmit}
               className="flex items-center space-x-2"
+              aria-label="Ask your question"
             >
               <input
                 type="text"
                 placeholder="Ask a question..."
-                className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none"
+                className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 disabled={loading}
+                aria-disabled={loading}
+                aria-label="Type your question"
+                autoFocus
               />
               <button
                 type="submit"
                 disabled={loading || !question.trim()}
-                className={`text-sm px-4 py-2 rounded-lg ${
+                className={`text-sm px-4 py-2 rounded-lg transition font-semibold ${
                   loading || !question.trim()
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-black hover:bg-gray-800 text-white'
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow'
                 }`}
+                aria-disabled={loading || !question.trim()}
               >
                 Send
               </button>
@@ -147,73 +163,53 @@ export function ChatBox({ id }: { id: string }) {
   );
 }
 
-// Animated bouncing dots typing indicator
-function TypingDots() {
-  return (
-    <span className="inline-flex space-x-1">
-      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce animation-delay-0"></span>
-      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce animation-delay-200"></span>
-      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce animation-delay-400"></span>
-      <style jsx>{`
-        .animation-delay-0 {
-          animation-delay: 0ms;
-        }
-        .animation-delay-200 {
-          animation-delay: 200ms;
-        }
-        .animation-delay-400 {
-          animation-delay: 400ms;
-        }
-        @keyframes bounce {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-6px);
-          }
-        }
-        .animate-bounce {
-          animation-name: bounce;
-          animation-duration: 1s;
-          animation-iteration-count: infinite;
-          animation-timing-function: ease-in-out;
-        }
-      `}</style>
-    </span>
-  );
-}
-
-
-export function AiBotTypingIndicator() {
+export function AiChatbotTypingLoader() {
   return (
     <div className="flex items-center space-x-3">
-      {/* Robot head icon */}
+      {/* Robot SVG: square head, antenna, friendly face */}
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-10 w-10 text-indigo-600"
+        width="40"
+        height="40"
+        viewBox="0 0 40 40"
         fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.8}
+        className="text-indigo-500"
+        aria-hidden="true"
       >
+        {/* Head */}
         <rect
-          x="3"
-          y="7"
-          width="18"
-          height="10"
-          rx="2"
-          ry="2"
-          className="stroke-current"
+          x="7"
+          y="10"
+          width="26"
+          height="18"
+          rx="6"
+          fill="#fff"
+          stroke="currentColor"
+          strokeWidth="2"
         />
-        <circle cx="8" cy="12" r="1.5" className="stroke-current" />
-        <circle cx="16" cy="12" r="1.5" className="stroke-current" />
+        {/* Eyes */}
+        <circle cx="15" cy="19" r="2" fill="#6366f1" />
+        <circle cx="25" cy="19" r="2" fill="#6366f1" />
+        {/* Smile */}
         <path
+          d="M17 24 Q20 27 23 24"
+          stroke="#6366f1"
+          strokeWidth="1.5"
+          fill="none"
           strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M9 17h6"
-          className="stroke-current"
         />
+        {/* Antenna */}
+        <rect x="19" y="5" width="2" height="6" rx="1" fill="#6366f1" />
+        <circle
+          cx="20"
+          cy="5"
+          r="2"
+          fill="#6366f1"
+          stroke="#fff"
+          strokeWidth="1"
+        />
+        {/* Ears */}
+        <rect x="5" y="16" width="2" height="8" rx="1" fill="#6366f1" />
+        <rect x="33" y="16" width="2" height="8" rx="1" fill="#6366f1" />
       </svg>
 
       {/* Typing dots */}
@@ -221,105 +217,25 @@ export function AiBotTypingIndicator() {
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className="inline-block h-3 w-3 rounded-full bg-indigo-600 animate-bounce-delay"
-            style={{ animationDelay: `${i * 200}ms` }}
+            className="h-2.5 w-2.5 rounded-full bg-indigo-500 animate-bounce"
+            style={{ animationDelay: `${i * 0.2}s` }}
           />
         ))}
       </div>
-
       <style jsx>{`
-        @keyframes bounce-delay {
+        @keyframes bounce {
           0%,
-          80%,
           100% {
             transform: translateY(0);
             opacity: 0.4;
           }
-          40% {
-            transform: translateY(-8px);
+          50% {
+            transform: translateY(-7px);
             opacity: 1;
           }
         }
-        .animate-bounce-delay {
-          animation-name: bounce-delay;
-          animation-duration: 1.4s;
-          animation-iteration-count: infinite;
-          animation-timing-function: ease-in-out;
-        }
-      `}</style>
-    </div>
-  );
-}
-
-export function AiChatbotTypingLoader() {
-  return (
-    <div className="flex items-center space-x-3">
-      {/* Outline robot head with glowing pulse */}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-12 w-12 text-indigo-500 stroke-2 stroke-current filter drop-shadow-md animate-pulse-glow"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        {/* Head outline */}
-        <rect
-          x="3"
-          y="7"
-          width="18"
-          height="10"
-          rx="2"
-          ry="2"
-          strokeWidth="2"
-          className="stroke-current"
-        />
-        {/* Eyes */}
-        <circle cx="8" cy="12" r="1.5" />
-        <circle cx="16" cy="12" r="1.5" />
-        {/* Mouth line */}
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 17h6" />
-      </svg>
-
-      {/* Typing dots with fade-in/out animation */}
-      <div className="flex space-x-2">
-        {[0, 1, 2].map((i) => (
-          <span
-            key={i}
-            className="h-4 w-4 rounded-full bg-indigo-500 animate-fade-bounce"
-            style={{ animationDelay: `${i * 300}ms` }}
-          />
-        ))}
-      </div>
-
-      <style jsx>{`
-        @keyframes pulse-glow {
-          0%,
-          100% {
-            filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.7));
-          }
-          50% {
-            filter: drop-shadow(0 0 14px rgba(99, 102, 241, 1));
-          }
-        }
-
-        .animate-pulse-glow {
-          animation: pulse-glow 2.5s ease-in-out infinite;
-        }
-
-        @keyframes fade-bounce {
-          0%,
-          100% {
-            opacity: 0.3;
-            transform: translateY(0);
-          }
-          50% {
-            opacity: 1;
-            transform: translateY(-6px);
-          }
-        }
-
-        .animate-fade-bounce {
-          animation: fade-bounce 1.5s ease-in-out infinite;
+        .animate-bounce {
+          animation: bounce 1.2s infinite;
         }
       `}</style>
     </div>
