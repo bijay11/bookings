@@ -1,13 +1,13 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -97,14 +97,14 @@ type ListingDetailsResponse struct {
 }
 
 type Review struct {
-	ReviewerID string `json:"-"` // Front-end doesnt need this ID
+	ReviewerID string `json:"reviewer_id"`
 	Reviewer   string `json:"reviewer"`
-	Location   string `json:"location"`
-	AvatarURL  string `json:"avatar_url"`
-	TripType   string `json:"trip_type"`
 	Comment    string `json:"comment"`
 	Rating     int    `json:"rating"`
 	Date       string `json:"date"`
+	AvatarURL  string `json:"avatar_url"`
+	TripType   string `json:"trip_type"`
+	Location   string `json:"location"`
 }
 
 // ReviewResponse is the API response for listing reviews
@@ -119,6 +119,12 @@ type ReviewResponse struct {
 type AskPayload struct {
 	ListingID string `json:"listing_id"`
 	Question  string `json:"question"`
+}
+
+type AskRequestToLLM struct {
+	ListingID string `json:"listing_id"`
+	Question  string `json:"question"`
+	Content   string `json:"content"`
 }
 
 // Creates a new repository
@@ -860,38 +866,62 @@ func (m *Repository) AdminDeleteReservation(w http.ResponseWriter, r *http.Reque
 
 func (m *Repository) AskAboutReviews(w http.ResponseWriter, r *http.Request) {
 	var payload AskPayload
-	err := json.NewDecoder(r.Body).Decode(&payload)
-	if err != nil {
-		http.Error(w, "invalid JSON payload: "+err.Error(), http.StatusBadRequest)
+	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+		http.Error(w, "Invalid JSON payload: "+err.Error(), http.StatusBadRequest)
 		return
 	}
-
 	if payload.ListingID == "" || payload.Question == "" {
-		http.Error(w, "missing listing_id or question in body", http.StatusBadRequest)
+		http.Error(w, "Missing listing_id or question", http.StatusBadRequest)
 		return
 	}
 
-	pythonURL := fmt.Sprintf(
-		"http://localhost:8000/ask?listing_id=%s&question=%s",
-		url.QueryEscape(payload.ListingID),
-		url.QueryEscape(payload.Question),
-	)
-
-	resp, err := http.Get(pythonURL)
+	listingID, err := strconv.Atoi(payload.ListingID)
 	if err != nil {
-		http.Error(w, "failed to contact Python LLM service: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Invalid listing_id: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	reviews, found := MockListingReviews[listingID]
+	if !found || len(reviews) == 0 {
+		http.Error(w, "No reviews found for listing", http.StatusNotFound)
+		return
+	}
+
+	// Instead of combining comments, marshal entire reviews slice
+	reviewsJSON, err := json.Marshal(reviews)
+	if err != nil {
+		http.Error(w, "Failed to encode reviews: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Build JSON request to Python LLM microservice
+	pythonReq := map[string]interface{}{
+		"listing_id": payload.ListingID,
+		"question":   payload.Question,
+		"reviews":    json.RawMessage(reviewsJSON), // keep as raw JSON array
+	}
+	reqBody, err := json.Marshal(pythonReq)
+	if err != nil {
+		http.Error(w, "Failed to encode request to Python: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	resp, err := http.Post("http://localhost:8000/ask", "application/json", bytes.NewBuffer(reqBody))
+	if err != nil {
+		http.Error(w, "Failed to contact Python LLM service: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		http.Error(w, "Python service returned status "+resp.Status, http.StatusInternalServerError)
+		body, _ := io.ReadAll(resp.Body)
+		http.Error(w, "Python service error: "+string(body), http.StatusInternalServerError)
 		return
 	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		http.Error(w, "failed to read Python response: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Failed to read Python response: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 

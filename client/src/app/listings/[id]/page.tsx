@@ -150,6 +150,8 @@ export default async function ListingPage({
               </div>
             </div>
           </ReviewsModal>
+          
+          <h4>Do you want to ask AI?</h4>
 
           {/* Price */}
           <div className="mb-6 p-4 bg-gray-50 rounded-lg">
