@@ -1,4 +1,3 @@
-// app/page.tsx or app/listings/page.tsx
 import SearchBar from '@/components/SearchBar';
 import ListingsGrid from '@/components/ListingGrid';
 

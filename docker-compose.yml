@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:15
+    container_name: bookings-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: bookings
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  server:
+    build: ./server
+    container_name: bookings-server
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: secret
+      DB_NAME: bookings
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+  client:
+    build: ./client
+    container_name: bookings-client
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+    restart: unless-stopped
+volumes:
+  pgdata:

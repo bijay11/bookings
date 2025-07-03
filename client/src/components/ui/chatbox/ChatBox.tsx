@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { XMarkIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
+import { XMarkIcon } from '@heroicons/react/24/solid';
 
 interface ChatEntry {
   question: string;
@@ -62,7 +62,8 @@ export function ChatBox({ id, isOpen, onClose }: ChatBoxProps) {
         };
         return newHistory;
       });
-    } catch (err: any) {
+
+    } catch (err) {
       setHistory((prev) => {
         const newHistory = [...prev];
         newHistory[newHistory.length - 1] = {

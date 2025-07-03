@@ -20,7 +20,7 @@ export function ProductImageCarousel({
   images,
   title,
 }: ProductImageCarouselProps) {
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
   const [isBeginning, setIsBeginning] = useState(true);
@@ -46,9 +46,9 @@ export function ProductImageCarousel({
         }}
         thumbs={{ swiper: thumbsSwiper }}
         onInit={(swiper) => {
-          // @ts-ignore
+          // @ts-expect-error Preventing temp ts error
           swiper.params.navigation.prevEl = prevRef.current;
-          // @ts-ignore
+          // @ts-expect-error Preventing temp ts error
           swiper.params.navigation.nextEl = nextRef.current;
           swiper.navigation.init();
           swiper.navigation.update();

@@ -4,7 +4,6 @@ import { ProductImageCarousel } from '@/components/ui/carousel';
 import ReviewsModal from '@/components/ReviewsModal';
 import { DateRangePicker } from '@/components/DateRangerPicker';
 import { GuestSelectorWrapper } from '@/components/GuestSelectorWrapper';
-import { ChatBox } from '@/components/ui/chatbox/ChatBox';
 import { ChatBoxWrapper } from '@/components/ui/chatbox/ChatboxWrapper';
 
 interface Listing {
@@ -38,7 +37,7 @@ interface ListingResponse {
 export default async function ListingPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
 

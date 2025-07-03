@@ -3,7 +3,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
@@ -23,6 +24,6 @@
     "eslint-config-next": "15.3.3",
     "postcss": "^8.5.5",
     "tailwindcss": "^4.1.10",
-    "typescript": "5.8.3"
+    "typescript": "^5.8.3"
   }
 }

@@ -26,8 +26,6 @@ interface ReviewsModalProps {
 
 export default function ReviewsModal({
   listingId,
-  averageRating,
-  reviewCount,
   initialReviews,
   children,
 }: ReviewsModalProps) {
