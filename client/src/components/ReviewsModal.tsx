@@ -40,8 +40,12 @@ export default function ReviewsModal({
       setIsLoading(true);
       try {
         const res = await fetch(
-          `http://localhost:8080/api/listings/${listingId}/reviews`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/listings/${listingId}/reviews`
         );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
         const data = await res.json();
         setReviews(data.reviews);
       } catch (error) {

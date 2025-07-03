@@ -42,11 +42,15 @@ export default async function ListingPage({
   const { id } = await params;
 
   // Fetch listing data
-  const resListing = await fetch(`http://localhost:8080/api/listings/${id}`, {
+  const res = await fetch(`${process.env.INTERNAL_API_BASE_URL}/api/listings/${id}`, {
     cache: 'no-store',
   });
 
-  if (!resListing.ok) return notFound();
+  if (!res.ok) {
+  throw new Error('Failed to fetch')
+}
+
+  if (!res.ok) return notFound();
 
   const {
     data: {
@@ -59,7 +63,7 @@ export default async function ListingPage({
       host,
       amenities,
     },
-  }: ListingResponse = await resListing.json();
+  }: ListingResponse = await res.json();
 
   const fullStars = Math.floor(review_summary.average_rating);
   const hasHalfStar = review_summary.average_rating % 1 >= 0.5;

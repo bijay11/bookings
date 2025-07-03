@@ -40,7 +40,7 @@ export function ChatBox({ id, isOpen, onClose }: ChatBoxProps) {
     ]);
 
     try {
-      const res = await fetch('http://localhost:8080/ask-about-reviews', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ask-about-reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ listing_id: id, question: currentQuestion }),
