@@ -24,3 +24,4 @@ chroma_store/
 
 # Environment variables
 .env
+.env.local
