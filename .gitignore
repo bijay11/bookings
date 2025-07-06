@@ -36,5 +36,6 @@ build/
 output.css
 main.css
 # Ignore HTML templates/static files
+server/templates/*.html
 server/html-templates/*.html
 server/static/**/*.html
