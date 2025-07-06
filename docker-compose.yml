@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
@@ -30,6 +30,15 @@ services:
       CACHE: ${CACHE}
     ports:
       - "8080:8080"
+    restart: unless-stopped
+
+  llm-service:
+    build: ./llm-service
+    container_name: llm-service
+    environment:
+      OLLAMA_BASE_URL: "http://host.docker.internal:11434"
+    ports:
+      - "8000:8000"
     restart: unless-stopped
 
   client:

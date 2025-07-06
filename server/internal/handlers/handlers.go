@@ -906,7 +906,8 @@ func (m *Repository) AskAboutReviews(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := http.Post("http://localhost:8000/ask", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Post("http://llm-service:8000/ask", "application/json", bytes.NewBuffer(reqBody))
+
 	if err != nil {
 		http.Error(w, "Failed to contact Python LLM service: "+err.Error(), http.StatusInternalServerError)
 		return
