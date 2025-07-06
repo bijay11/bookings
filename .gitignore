@@ -25,3 +25,16 @@ chroma_store/
 # Environment variables
 .env
 .env.local
+# Ignore built/generated CSS files
+server/static/css/
+server/static/admin/css/
+server/static/admin/vendors/
+*.bundle.*.css
+*.min.css
+dist/
+build/
+output.css
+main.css
+# Ignore HTML templates/static files
+server/html-templates/*.html
+server/static/**/*.html
