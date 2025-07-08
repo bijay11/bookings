@@ -39,3 +39,4 @@ main.css
 server/templates/*.html
 server/html-templates/*.html
 server/static/**/*.html
+server/.envrc
