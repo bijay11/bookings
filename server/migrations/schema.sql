@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.18 (Ubuntu 14.18-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.18 (Ubuntu 14.18-0ubuntu0.22.04.1)
+-- Dumped from database version 15.13 (Debian 15.13-1.pgdg120+1)
+-- Dumped by pg_dump version 15.13 (Homebrew)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,6 +19,31 @@ SET row_security = off;
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
+
+--
+-- Name: listings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.listings (
+    host_id bigint,
+    title character varying(255),
+    description text NOT NULL,
+    price_per_night numeric(10,2),
+    address_line1 character varying(255) NOT NULL,
+    address_line2 character varying(255) NOT NULL,
+    city character varying(255) NOT NULL,
+    state character varying(255) NOT NULL,
+    country character varying(255) DEFAULT 'USA'::character varying NOT NULL,
+    zipcode character varying(10) NOT NULL,
+    latitude numeric(9,6) NOT NULL,
+    longitude numeric(9,6) NOT NULL,
+    cover_image_url character varying(255) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.listings OWNER TO postgres;
 
 --
 -- Name: reservations; Type: TABLE; Schema: public; Owner: postgres
@@ -310,6 +335,13 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: listings_host_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX listings_host_id_idx ON public.listings USING btree (host_id);
+
+
+--
 -- Name: reservations_email_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -352,10 +384,11 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 
 
 --
--- Name: users_email_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: listings listings_users_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX users_email_idx ON public.users USING btree (email);
+ALTER TABLE ONLY public.listings
+    ADD CONSTRAINT listings_users_id_fk FOREIGN KEY (host_id) REFERENCES public.users(id);
 
 
 --
