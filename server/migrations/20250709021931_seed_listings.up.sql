@@ -1,0 +1,25 @@
+INSERT INTO listings (
+  host_id, title, description, price_per_night, address_line1, address_line2,
+  city, state, country, zipcode, latitude, longitude, cover_image_url,
+  created_at, updated_at
+) VALUES
+(1, 'Modern Loft in San Francisco', 'Spacious loft with industrial design.', 210.00, '123 Market St', NULL, 'San Francisco', 'CA', 'USA', '94103', 37.7749, -122.4194, 'https://picsum.photos/800/600?random=1', NOW(), NOW()),
+(2, 'Cozy Cabin in Colorado', 'Nestled in the mountains with a fireplace.', 185.00, '456 Pine Ln', NULL, 'Aspen', 'CO', 'USA', '81611', 39.1911, -106.8175, 'https://picsum.photos/800/600?random=2', NOW(), NOW()),
+(3, 'Beachfront Condo in Miami', 'Wake up to the sound of waves.', 275.00, '789 Ocean Dr', NULL, 'Miami Beach', 'FL', 'USA', '33139', 25.7907, -80.1300, 'https://picsum.photos/800/600?random=3', NOW(), NOW()),
+(4, 'Stylish Apartment in New York', 'Trendy space in the heart of Manhattan.', 320.00, '101 Broadway', NULL, 'New York', 'NY', 'USA', '10007', 40.7128, -74.0060, 'https://picsum.photos/800/600?random=4', NOW(), NOW()),
+(5, 'Desert Retreat in Arizona', 'Peaceful escape surrounded by nature.', 160.00, '202 Desert Way', NULL, 'Sedona', 'AZ', 'USA', '86336', 34.8697, -111.7609, 'https://picsum.photos/800/600?random=5', NOW(), NOW()),
+(6, 'Lakehouse in Minnesota', 'Perfect summer retreat.', 190.00, '15 Lakeview Dr', NULL, 'Brainerd', 'MN', 'USA', '56401', 46.3580, -94.2008, 'https://picsum.photos/800/600?random=6', NOW(), NOW()),
+(7, 'Mountain View Chalet', 'Stunning mountain views.', 240.00, '88 Ridge Rd', NULL, 'Jackson', 'WY', 'USA', '83001', 43.4799, -110.7624, 'https://picsum.photos/800/600?random=7', NOW(), NOW()),
+(8, 'Tiny House in Portland', 'Minimalist eco-living.', 110.00, '10 Hawthorne Blvd', NULL, 'Portland', 'OR', 'USA', '97214', 45.5122, -122.6587, 'https://picsum.photos/800/600?random=8', NOW(), NOW()),
+(9, 'Rustic Barn in Vermont', 'Charming countryside experience.', 135.00, '55 Maple Rd', NULL, 'Stowe', 'VT', 'USA', '05672', 44.4654, -72.6874, 'https://picsum.photos/800/600?random=9', NOW(), NOW()),
+(10, 'Luxury Villa in Malibu', 'High-end beachside property.', 450.00, '222 Pacific Hwy', NULL, 'Malibu', 'CA', 'USA', '90265', 34.0259, -118.7798, 'https://picsum.photos/800/600?random=10', NOW(), NOW()),
+(11, 'Urban Studio in Seattle', 'Compact studio in downtown.', 150.00, '321 Pine St', NULL, 'Seattle', 'WA', 'USA', '98101', 47.6097, -122.3331, 'https://picsum.photos/800/600?random=11', NOW(), NOW()),
+(12, 'Countryside Cottage', 'Quiet retreat in the countryside.', 120.00, '12 Country Rd', NULL, 'Lancaster', 'PA', 'USA', '17602', 40.0379, -76.3055, 'https://picsum.photos/800/600?random=12', NOW(), NOW()),
+(13, 'Penthouse in Chicago', 'Luxury penthouse with skyline views.', 500.00, '200 Lake Shore Dr', NULL, 'Chicago', 'IL', 'USA', '60601', 41.8853, -87.6216, 'https://picsum.photos/800/600?random=13', NOW(), NOW()),
+(14, 'Historic Home in Boston', 'Charming historic house.', 210.00, '77 Beacon St', NULL, 'Boston', 'MA', 'USA', '02108', 42.3584, -71.0636, 'https://picsum.photos/800/600?random=14', NOW(), NOW()),
+(15, 'Eco Lodge in Hawaii', 'Sustainable stay near the beach.', 330.00, '5 Palm Dr', NULL, 'Kailua', 'HI', 'USA', '96734', 21.4022, -157.7394, 'https://picsum.photos/800/600?random=15', NOW(), NOW()),
+(16, 'Downtown Flat in Austin', 'Trendy flat close to music venues.', 210.00, '88 6th St', NULL, 'Austin', 'TX', 'USA', '78701', 30.2672, -97.7431, 'https://picsum.photos/800/600?random=16', NOW(), NOW()),
+(17, 'Ski Chalet in Tahoe', 'Perfect for winter sports lovers.', 350.00, '99 Snowy Ln', NULL, 'South Lake Tahoe', 'CA', 'USA', '96150', 38.9399, -119.9772, 'https://picsum.photos/800/600?random=17', NOW(), NOW()),
+(18, 'Artist Loft in Santa Fe', 'Creative space in the arts district.', 180.00, '23 Canyon Rd', NULL, 'Santa Fe', 'NM', 'USA', '87501', 35.6870, -105.9378, 'https://picsum.photos/800/600?random=18', NOW(), NOW()),
+(19, 'Suburban Home in Atlanta', 'Spacious home in quiet suburb.', 160.00, '400 Peachtree Rd', NULL, 'Atlanta', 'GA', 'USA', '30309', 33.7887, -84.3827, 'https://picsum.photos/800/600?random=19', NOW(), NOW()),
+(20, 'Wine Country Retreat', 'Stay among the vineyards.', 270.00, '50 Vineyard Ln', NULL, 'Napa', 'CA', 'USA', '94558', 38.2975, -122.2869, 'https://picsum.photos/800/600?random=20', NOW(), NOW());

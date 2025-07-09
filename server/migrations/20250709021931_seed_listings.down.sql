@@ -1,0 +1,1 @@
+sql DELETE FROM users;
