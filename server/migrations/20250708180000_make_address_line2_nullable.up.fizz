@@ -1,0 +1,1 @@
+change_column("listings", "address_line2", "string", {null: true})

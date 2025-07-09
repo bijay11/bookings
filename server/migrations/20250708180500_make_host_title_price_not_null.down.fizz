@@ -1,0 +1,3 @@
+change_column("listings", "host_id", "bigint", {null: true})
+change_column("listings", "title", "string", {null: true})
+change_column("listings", "price_per_night", "decimal", {precision: 10, scale: 2, null: true})

@@ -25,12 +25,12 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.listings (
-    host_id bigint,
-    title character varying(255),
+    host_id bigint NOT NULL,
+    title character varying(255) NOT NULL,
     description text NOT NULL,
-    price_per_night numeric(10,2),
+    price_per_night numeric(10,2) NOT NULL,
     address_line1 character varying(255) NOT NULL,
-    address_line2 character varying(255) NOT NULL,
+    address_line2 character varying(255),
     city character varying(255) NOT NULL,
     state character varying(255) NOT NULL,
     country character varying(255) DEFAULT 'USA'::character varying NOT NULL,
