@@ -25,12 +25,12 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.listings (
-    host_id bigint NOT NULL,
-    title character varying(255) NOT NULL,
+    host_id bigint,
+    title character varying(255),
     description text NOT NULL,
-    price_per_night numeric(10,2) NOT NULL,
+    price_per_night numeric(10,2),
     address_line1 character varying(255) NOT NULL,
-    address_line2 character varying(255),
+    address_line2 character varying(255) NOT NULL,
     city character varying(255) NOT NULL,
     state character varying(255) NOT NULL,
     country character varying(255) DEFAULT 'USA'::character varying NOT NULL,
@@ -217,11 +217,11 @@ ALTER TABLE public.schema_migration OWNER TO postgres;
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    first_name character varying(255),
-    last_name character varying(255),
-    email character varying(255),
-    password character varying(255),
-    access_level integer DEFAULT 0,
+    first_name character varying(255) DEFAULT ''::character varying NOT NULL,
+    last_name character varying(255) DEFAULT ''::character varying NOT NULL,
+    email character varying(255) NOT NULL,
+    password character varying(60) NOT NULL,
+    access_level integer DEFAULT 1 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -381,6 +381,14 @@ CREATE INDEX room_restrictions_start_date_end_date_idx ON public.room_restrictio
 --
 
 CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USING btree (version);
+
+
+--
+-- Name: listings listings_users_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings
+    ADD CONSTRAINT listings_users_id_fk FOREIGN KEY (host_id) REFERENCES public.users(id);
 
 
 --
