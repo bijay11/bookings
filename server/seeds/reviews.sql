@@ -1,0 +1,16 @@
+INSERT INTO reviews (listing_id, user_id, rating, comment, created_at, updated_at) VALUES
+(11, 5, 5, 'Absolutely loved the loft in NYC. Super clean and great location!', NOW(), NOW()),
+(11, 6, 4, 'Nice space, a bit noisy at night but overall good.', NOW(), NOW()),
+(12, 7, 5, 'Steps from the beach. Perfect getaway.', NOW(), NOW()),
+(12, 8, 4, 'Very cozy and peaceful.', NOW(), NOW()),
+(13, 9, 5, 'Incredible views from the cabin. Worth every penny.', NOW(), NOW()),
+(13, 10, 3, 'Beautiful place but hard to reach in snow.', NOW(), NOW()),
+(14, 11, 4, 'Loved the studio. Compact but functional.', NOW(), NOW()),
+(14, 12, 5, 'Stylish and super clean.', NOW(), NOW()),
+(15, 13, 5, 'Historic charm meets modern comfort.', NOW(), NOW()),
+(16, 14, 3, 'Nice apartment, but no parking included.', NOW(), NOW()),
+(17, 5, 4, 'Loved waking up next to the lake.', NOW(), NOW()),
+(18, 6, 5, 'Charming cottage — perfect for a romantic weekend.', NOW(), NOW()),
+(19, 7, 5, 'Luxury at its finest. Amazing view!', NOW(), NOW()),
+(20, 8, 4, 'Well designed space in the desert.', NOW(), NOW()),
+(20, 9, 2, 'Too hot, and AC was weak.', NOW(), NOW());
