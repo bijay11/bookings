@@ -1,0 +1,17 @@
+create_table("users") {
+  t.Column("id", "integer", {primary: true})
+  t.Column("first_name", "string", {size: 255, null: false})
+  t.Column("last_name", "string", {size: 255, null: false})
+  t.Column("email", "string", {size: 255, null: false})
+  t.Column("password", "string", {size: 255, null: false})
+  t.Column("access_level", "integer", {null: false, default: 0})
+  t.Column("profile_picture", "text", {})
+  t.Column("bio", "text", {})
+  t.Column("phone_number", "string", {size: 20})
+  t.Column("email_verified", "boolean", {default: false})
+  t.Column("phone_verified", "boolean", {default: false})
+  t.Column("is_host", "boolean", {default: false})
+  t.Column("last_login_at", "timestamp", {})
+  t.Timestamps()
+}
+add_index("users", "email", {unique: true})

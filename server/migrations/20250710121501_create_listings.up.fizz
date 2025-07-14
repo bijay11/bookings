@@ -1,0 +1,15 @@
+create_table("listings") {
+  t.Column("id", "integer", {primary: true})
+  t.Column("title", "string", {size: 255, null: false})
+  t.Column("city", "string", {size: 100, null: false})
+  t.Column("state", "string", {size: 100, null: false})
+  t.Column("image_url", "text", {})
+  t.Column("price_per_night", "decimal", {precision: 10, scale: 2, null: false})
+  t.Column("host_id", "integer", {null: false})
+  t.Timestamps()
+}
+
+add_foreign_key("listings", "host_id", {"users": ["id"]}, {
+  "on_delete": "cascade",
+  "on_update": "cascade"
+})

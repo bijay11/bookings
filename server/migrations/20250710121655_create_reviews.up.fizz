@@ -1,0 +1,18 @@
+create_table("reviews") {
+  t.Column("id", "integer", {primary: true})
+  t.Column("listing_id", "integer", {null: false})
+  t.Column("user_id", "integer", {null: false})
+  t.Column("rating", "integer", {null: false})
+  t.Column("comment", "text", {})
+  t.Timestamps()
+}
+
+add_foreign_key("reviews", "listing_id", {"listings": ["id"]}, {
+  "on_delete": "cascade",
+  "on_update": "cascade"
+})
+
+add_foreign_key("reviews", "user_id", {"users": ["id"]}, {
+  "on_delete": "cascade",
+  "on_update": "cascade"
+})
